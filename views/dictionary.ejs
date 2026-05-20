@@ -6,6 +6,54 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>Add Character</h1>
+    <form action="/addCharacter" method="POST">
+
+        <label>Character</label>
+        <input type="text" name="character" required>
+
+        <label>English</label>
+        <input type="text" name="english" required>
+
+        <label>Pronunciation</label>
+        <input type="text" name="pronunciation" required>
+
+        <button type="submit">
+            Submit
+        </button>
+
+    </form>
+
+    <h1>Characters</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Character / 汉子</th>
+            <th>English</th>
+            <th>Pronunciation / 拼音</th>
+        </tr>
+
+        <% characters.forEach(character =>{ %>
+            <tr>
+                <td>
+                    <%= character.id %>
+                </td>
+                <td>
+                    <%= character.chinese_character %>
+                </td>
+                <td>
+                    <%= character.english %>
+                </td>
+                <td>
+                    <%= character.pronunciation %>
+                </td>
+            </tr>
+
+        <% }) %>
+        
+
+    </table>
+
 </body>
 </html>
+
