@@ -12,6 +12,15 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+app.get("/dictionary", (req, res) => {
+    res.render("dictionary");
+});
+
+app.get("/account", (req, res) => {
+    res.render("account");
+});
+
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
