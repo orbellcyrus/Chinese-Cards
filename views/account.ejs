@@ -6,6 +6,38 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="/addUser" method="POST" >
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="text" name="password" required>
+
+        <label>Email</label>
+        <input type="text" name="email" required>
+
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    
+    <form action="/login" method="POST">
+
+        <input name="username">
+
+        <input
+            type="password"
+            name="password"
+        >
+        <button>
+            Login
+        </button>
+
+    </form>
+
+    
+    
+   
     
 </body>
 </html>
