@@ -29,23 +29,46 @@ app.get("/login", (req, res) => {
 });
 
 
-app.get("/dictionary", (req, res) => {
+app.get("/dictionary",(req,res)=>{
     if(!req.session.userId){
         return res.redirect("/account");
     }
-    let sql =
-    "SELECT * FROM CharacterDictionary";
 
-    db.query(sql,(err,results)=>{
+    let sql = `
+    SELECT
+        CharacterDictionary.*,
 
-        if(err) throw err;
+        CASE
+            WHEN UsersLearned.user_id IS NULL
+            THEN 0
+            ELSE 1
+        END AS known
 
-        res.render(
-            "dictionary",
-            { characters: results }
-        );
+    FROM CharacterDictionary
 
-    });
+    LEFT JOIN UsersLearned
+
+    ON CharacterDictionary.id =
+       UsersLearned.character_id
+
+    AND UsersLearned.user_id = ?
+    `;
+
+    db.query(
+        sql,
+        [req.session.userId],
+        (err,results)=>{
+
+            if(err) throw err;
+
+            res.render(
+                "dictionary",
+                {characters:results}
+            );
+
+        }
+    );
+
 });
 
 app.get("/account", (req, res) => {
@@ -180,7 +203,37 @@ app.post("/learnCharacter", (req,res)=>{
             res.redirect("dictionary");
     }
     )
-})
+});
+
+
+app.post("/unlearnCharacter",(req,res)=>{
+
+    const userId =
+        req.session.userId;
+
+    const characterId =
+        req.body.characterId;
+
+    db.query(
+        `
+        DELETE FROM UsersLearned
+
+        WHERE user_id = ?
+        AND character_id = ?
+        `,
+        [userId,characterId],
+
+        (err)=>{
+
+            if(err) throw err;
+
+            res.redirect("/dictionary");
+
+        }
+
+    );
+
+});
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");

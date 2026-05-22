@@ -63,17 +63,41 @@
                 </td>
 
                 <td>
-                    <form
-                        action="/learnCharacter"
-                        method="POST">
-                        <input
-                            type="hidden"
-                            name="characterId"
-                            value="<%= character.id %>">
-                        <button>
-                            I Know This
-                        </button>
-                    </form>
+                    <% if(character.known){ %>
+
+                        <form
+                            action="/unlearnCharacter"
+                            method="POST">
+
+                            <input
+                                type="hidden"
+                                name="characterId"
+                                value="<%= character.id %>">
+
+                            <button>
+                                ✓ Known
+                            </button>
+
+                        </form>
+
+                    <% } else { %>
+
+                        <form
+                            action="/learnCharacter"
+                            method="POST">
+
+                            <input
+                                type="hidden"
+                                name="characterId"
+                                value="<%= character.id %>">
+
+                            <button>
+                                Learn
+                            </button>
+
+                        </form>
+
+                    <% } %>
                 </td>
 
             </tr>
