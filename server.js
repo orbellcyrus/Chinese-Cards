@@ -164,6 +164,24 @@ app.post("/login",(req,res)=>{
     );
 });
 
+
+app.post("/learnCharacter", (req,res)=>{
+    const userID = req.session.userId;
+    const charID = req.body.characterId;
+    let sql = "INSERT INTO UsersLearned(user_id , character_id) VALUES (?, ?)";
+    db.query(
+        sql,
+        [userID,charID],
+        (err,result)=>{
+
+            if(err) throw err;
+
+            console.log("Connection added");
+            res.redirect("dictionary");
+    }
+    )
+})
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });

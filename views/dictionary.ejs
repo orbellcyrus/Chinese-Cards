@@ -16,7 +16,7 @@
             <li><a href="/account">Account</a></li>
         </ul>
     </nav>
-    
+
     <h1>Add Character</h1>
     <form action="/addCharacter" method="POST">
 
@@ -49,15 +49,33 @@
                 <td>
                     <%= character.id %>
                 </td>
+                
                 <td>
                     <%= character.chinese_character %>
                 </td>
+
                 <td>
                     <%= character.english %>
                 </td>
+
                 <td>
                     <%= character.pronunciation %>
                 </td>
+
+                <td>
+                    <form
+                        action="/learnCharacter"
+                        method="POST">
+                        <input
+                            type="hidden"
+                            name="characterId"
+                            value="<%= character.id %>">
+                        <button>
+                            I Know This
+                        </button>
+                    </form>
+                </td>
+
             </tr>
 
         <% }) %>
