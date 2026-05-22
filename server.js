@@ -24,6 +24,11 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+app.get("/login", (req, res) => {
+    res.render("login");
+});
+
+
 app.get("/dictionary", (req, res) => {
     if(!req.session.userId){
         return res.redirect("/account");
@@ -44,16 +49,20 @@ app.get("/dictionary", (req, res) => {
 });
 
 app.get("/account", (req, res) => {
+    if(!req.session.userId){
+        return res.redirect("/login");
+    }
     let sql =
-    "SELECT * FROM Users";
-
-    db.query(sql,(err,results)=>{
+    "SELECT * FROM Users WHERE id = ?" ;
+    db.query(sql,
+        [req.session.userId]
+        ,(err,results)=>{
 
         if(err) throw err;
 
         res.render(
             "account",
-            { users: results }
+            { user: results[0] }
         );
 
     });
@@ -79,40 +88,41 @@ app.post("/addCharacter",(req,res)=>{
 
 });
 
-app.post("/addUser",async (req,res)=>{
-
+app.post("/addUser", async (req,res)=>{
     try{
         const username = req.body.username;
         const password = req.body.password;
-        const email    = req.body.email;
-        const hashedPassword =
-            await bcrypt.hash(
-                password,
-                10
-            );
+        const email = req.body.email;
 
-        let sql =
-        "INSERT INTO Users(username, password, email) VALUES (?,?,?)";
-
+        let checkSQL = `SELECT * FROM Users WHERE username = ? OR email = ?`;
         db.query(
-            sql,
-            [username,hashedPassword,email],
-            (err,result)=>{
-            if(err) throw err;
-            console.log("User Added");
-            res.redirect("/account");
-        });
+            checkSQL,
+            [username,email],
+            async (err,results)=>{
+                if(err) throw err;
+                if(results.length > 0){
+                    return res.send(
+                        "Username or email already exists."
+                    );
+                }
+                const hashedPassword = await bcrypt.hash(password,10);
+                let insertSQL = `INSERT INTO Users (username,password,email) VALUES (?,?,?)`;
+                db.query(
+                    insertSQL,
+                    [username,hashedPassword,email],
+                    (err)=>{
+                        if(err) throw err;
+                        console.log("User Added");
+                        res.redirect("/account");
+                    }
+                );
+            }
+        );
     }
     catch(err){
-
         console.log(err);
-
         res.send("Error");
-
     }
-
-    
-
 });
 
 
@@ -120,14 +130,12 @@ app.post("/login",(req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
     let sql = "SELECT * FROM Users WHERE username=?";
-
     db.query(
         sql,
         [username],
         async (err,results)=>{
             if(err) throw err;
             if(results.length === 0){
-
                 return res.send(
                     "User not found"
                 );

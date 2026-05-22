@@ -5,39 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <form action="/addUser" method="POST" >
-        <label>Username</label>
-        <input type="text" name="username" required>
+    <nav class="navbar">
+        <div class="logo">
+            MySite
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/dictionary">Dictionary</a></li>
+            <li><a href="/account">Account</a></li>
+        </ul>
+    </nav>
 
-        <label>Password</label>
-        <input type="text" name="password" required>
-
-        <label>Email</label>
-        <input type="text" name="email" required>
-
-        <button type="submit">
-            Submit
-        </button>
-    </form>
+    <h1><%= user.username %></h1>
+    <p><%= user.email %></p>
     
-    <form action="/login" method="POST">
 
-        <input name="username">
-
-        <input
-            type="password"
-            name="password"
-        >
-        <button>
-            Login
-        </button>
-
-    </form>
-
-    
-    
-   
     
 </body>
 </html>
