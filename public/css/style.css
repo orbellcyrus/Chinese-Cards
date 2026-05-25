@@ -1,0 +1,72 @@
+body{
+
+    margin:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
+
+    background:#f3f0d4;
+
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.flashCardsInterface{
+
+    width:700px;
+    height:600px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    padding:30px;
+
+    border:2px solid black;
+
+    background:white;
+}
+
+.gameInfo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:24px;
+}
+
+
+.card{
+
+    width:400px;
+    height:250px;
+
+    align-self:center;
+
+    font-size:40px;
+
+    background:#ddd;
+}
+
+.wrongRight{
+
+    display:flex;
+
+    justify-content:space-between;
+}
+
+.wrong,
+.right{
+
+    width:200px;
+    height:70px;
+
+    font-size:24px;
+}

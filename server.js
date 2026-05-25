@@ -91,6 +91,12 @@ app.get("/account", (req, res) => {
     });
 });
 
+app.get("/flashcards", (req,res)=>{
+    res.render(
+        "flashcards"
+    );
+});
+
 app.post("/addCharacter",(req,res)=>{
 
     let character = req.body.character;
