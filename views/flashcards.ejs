@@ -25,15 +25,16 @@
     <div class ="flashCardBody">
         <div class = "flashCardsInterface">
             <div class= "gameInfo">
-                <p class = "cardIndex">
-                    1/10
+                <p class = "cardIndex" id = "indexDisplay">
+                    
                 </p>
-                <p class = "corrects">
-                    2
+                <p class = "wrongs" id = "wrongDisplay">
+                    
                 </p>
-                <p class = "wrongs">
-                    3
+                <p class = "corrects" id = "correctDisplay">
+                    
                 </p>
+                
             </div>
 
             
@@ -62,6 +63,9 @@
     const card = document.getElementById("card");
     const right = document.getElementById("right");
     const wrong = document.getElementById("wrong");
+    const correctDisplay = document.getElementById("correctDisplay");
+    const wrongDisplay = document.getElementById("wrongDisplay");
+    const indexDisplay = document.getElementById("indexDisplay");
 
     const deck =
     <%- JSON.stringify(deck) %>;
@@ -69,10 +73,29 @@
     const characters =
     <%- JSON.stringify(characters) %>;
 
-    let index = 2;
-    let side = 0;
+    console.log(deck,characters);
 
-    card.innerText = characters[index].chinese_character;
+    let wrongs = 0;
+    let rights = 0;
+    let index = 0;
+    let side = 0;
+    let length = characters.length;
+
+    updateText();
+
+    function updateText(){
+        if(index<length){
+            card.innerText = characters[index].chinese_character;
+            correctDisplay.innerText = `correct: ${rights}`;
+            wrongDisplay.innerText = `incorrect: ${wrongs}`;
+            indexDisplay.innerText = `${index +1 }/${length}`;
+        }else{
+            finished();
+        }
+      
+    }
+
+    
 
     function flip(){
         switch (side){
@@ -89,7 +112,6 @@
 
     }
     
-    
     card.addEventListener(
         "click",
         ()=>{
@@ -97,7 +119,27 @@
             else side ++;
             flip();
         }
-
     )
-    
+
+    function finished(){
+
+    }
+
+    right.addEventListener(
+        "click",
+        ()=>{
+            rights++;
+            index++;
+            updateText();
+        }
+    )
+    wrong.addEventListener(
+        "click",
+        ()=>{
+            wrongs++;
+            index++;
+            updateText(); 
+        }
+    )
+
 </script>

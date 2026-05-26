@@ -307,6 +307,20 @@ app.post("/unlearnCharacter",(req,res)=>{
 
 });
 
+
+app.post("/addDeck",(req,res)=>{
+    const title = 
+        req.body.title;
+    const userId =
+        req.session.userId;
+    db.query(`INSERT INTO DECKS(title,user_id) VALUES(?,?)`,
+    [title,userId],
+    (err)=>{
+        if(err) throw err;
+        res.redirect("/decks")
+    });
+});
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
