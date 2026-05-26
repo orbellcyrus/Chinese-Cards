@@ -38,16 +38,16 @@
 
             
 
-            <button class = "card">
-                 <%= characters[1].chinese_character %>
+            <button class = "card" id = "card">
+                 
             </button>
 
             <div class = "wrongRight">
-                <button class = "wrong">
+                <button class = "wrong" id ="wrong">
                     wrong
                 </button>
 
-                <button class = "right">
+                <button class = "right" id ="right">
                     right
                 </button>
             </div>
@@ -58,3 +58,46 @@
     
 </body>
 </html>
+<script>
+    const card = document.getElementById("card");
+    const right = document.getElementById("right");
+    const wrong = document.getElementById("wrong");
+
+    const deck =
+    <%- JSON.stringify(deck) %>;
+
+    const characters =
+    <%- JSON.stringify(characters) %>;
+
+    let index = 2;
+    let side = 0;
+
+    card.innerText = characters[index].chinese_character;
+
+    function flip(){
+        switch (side){
+            case 0:
+                card.innerText = characters[index].chinese_character;
+                break;
+            case 1:
+                card.innerText = characters[index].english;
+                break;
+            case 2:
+                card.innerText = characters[index].pronunciation;
+                break;
+        }
+
+    }
+    
+    
+    card.addEventListener(
+        "click",
+        ()=>{
+            if (side == 2) side=0;
+            else side ++;
+            flip();
+        }
+
+    )
+    
+</script>
