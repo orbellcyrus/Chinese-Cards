@@ -106,39 +106,57 @@ app.get("/decks", (req,res)=>{
 });
 
 app.get("/flashcards/:id",(req,res)=>{
-
-    let sql =
-    `SELECT *
-     FROM Decks
-     WHERE id = ?
-     AND user_id = ?`;
-
+    let verification_sql =
+    `
+    SELECT *
+    FROM Decks
+    WHERE id = ?
+    AND user_id = ?
+    `;
     db.query(
-        sql,
+        verification_sql,
         [
             req.params.id,
             req.session.userId
         ],
-
-        (err,results)=>{
-
+        (err,deckResults)=>{
             if(err) throw err;
-
-            if(results.length===0){
-
+            if(deckResults.length===0){
                 return res.send(
                     "Deck not found."
                 );
-            }
 
-            res.render(
-                "flashcards",
-                {
-                    deck:results[0]
+            }
+            let characters_sql =
+            `
+            SELECT CharacterDictionary.*
+            FROM CharacterDictionary
+            JOIN DeckCharacters
+            ON CharacterDictionary.id =
+               DeckCharacters.character_id
+
+            WHERE DeckCharacters.deck_id = ?
+            `;
+
+            db.query(
+                characters_sql,
+                [req.params.id],
+                (err,characterResults)=>{
+                    if(err) throw err;
+                    res.render(
+                        "flashcards",
+                        {
+                            deck:
+                                deckResults[0],
+                            characters:
+                                characterResults
+                        }
+                    );
+
                 }
             );
-
         }
+
     );
 
 });
