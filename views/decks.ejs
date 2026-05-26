@@ -21,7 +21,30 @@
         </ul>
     </nav>
 
+    <div class="deckContainer">
+        <% decks.forEach(deck => { %>
+            <a
+                href="/flashcards/<%= deck.id %>"
+                class="deckCard">
 
-    <p>hello</p>
+                <h2>
+                    <%= deck.title %>
+                </h2>
+
+                <p>
+                    Accuracy:
+                    <%= deck.high_score %>%
+                </p>
+
+                <p>
+                    Last Played:
+                    <%= deck.last_played %>
+                </p>
+
+            </a>
+        <% }) %>
+
+        
+    </div>
 </body>
 </html>

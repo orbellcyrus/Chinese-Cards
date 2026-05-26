@@ -1,7 +1,39 @@
 body{
+    margin:0;
+    background:linear-gradient(to left,
+        rgb(255, 221, 242),
+        rgb(215, 215, 225)
+    );
+}
+
+.navbar{
+    display:flex;
+
+    justify-content:space-between;
+
+    padding: 20px;
+
+    position: sticky;
+    top:0;
+
+}
+
+.navLinks{
+
+    display:flex;
+
+    gap:20px;
+
+    list-style:none;
+    
+    justify-content:space-between;
 
     margin:0;
 
+    padding:0;
+}
+
+.flashCardBody{
     display:flex;
 
     justify-content:center;
@@ -10,15 +42,12 @@ body{
 
     height:100vh;
 
-    background:#f3f0d4;
-
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .flashCardsInterface{
 
     width:700px;
-    height:600px;
+    height:400px;
 
     display:flex;
 
@@ -26,11 +55,11 @@ body{
 
     justify-content:space-between;
 
-    padding:30px;
+    padding:10px;
 
-    border:2px solid black;
+  
 
-    background:white;
+    
 }
 
 .gameInfo{
@@ -50,7 +79,7 @@ body{
 
     align-self:center;
 
-    font-size:40px;
+    font-size:35px;
 
     background:#ddd;
 }
@@ -59,7 +88,7 @@ body{
 
     display:flex;
 
-    justify-content:space-between;
+    justify-content:center;
 }
 
 .wrong,
@@ -69,4 +98,14 @@ body{
     height:70px;
 
     font-size:24px;
+}
+
+
+.deckContainer{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:20px;
 }

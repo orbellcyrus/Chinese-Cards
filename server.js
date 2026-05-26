@@ -91,11 +91,59 @@ app.get("/account", (req, res) => {
     });
 });
 
-app.get("/flashcards", (req,res)=>{
-    res.render(
-        "flashcards"
-    );
+app.get("/decks", (req,res)=>{
+    sql = "SELECT * FROM Decks where user_id = ?"
+    db.query(sql,
+        [req.session.userId],
+        (err,results)=>{
+            if(err) throw err;
+            res.render(
+                "decks",
+                {decks: results}
+            )
+        }
+    )
 });
+
+app.get("/flashcards/:id",(req,res)=>{
+
+    let sql =
+    `SELECT *
+     FROM Decks
+     WHERE id = ?
+     AND user_id = ?`;
+
+    db.query(
+        sql,
+        [
+            req.params.id,
+            req.session.userId
+        ],
+
+        (err,results)=>{
+
+            if(err) throw err;
+
+            if(results.length===0){
+
+                return res.send(
+                    "Deck not found."
+                );
+            }
+
+            res.render(
+                "flashcards",
+                {
+                    deck:results[0]
+                }
+            );
+
+        }
+    );
+
+});
+
+
 
 app.post("/addCharacter",(req,res)=>{
 
