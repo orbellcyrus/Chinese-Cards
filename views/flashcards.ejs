@@ -91,61 +91,55 @@
     const indexDisplay = document.getElementById("indexDisplay");
     const exitGame = document.getElementById("exitGame");
     const restartGame = document.getElementById("restartGame");
+    const popup = document.getElementById( "endPopup");
+    const finalScore = document.getElementById("finalScore");
 
-    const deck =
-    <%- JSON.stringify(deck) %>;
+    const deck = <%- JSON.stringify(deck) %>;
 
-    const characters =
-    <%- JSON.stringify(characters) %>;
+    const characters = <%- JSON.stringify(characters) %>;
 
-    console.log(deck,characters);
-
+    //console.log(deck,characters);
+    let playing = true;
     let wrongs = 0;
     let rights = 0;
     let index = 0;
     let side = 0;
     let length = characters.length;
 
-    function start(){
-        side = 0;
-        wrongs = 0;
-        rights = 0;
-        index = 0 ; 
-        side = 0 ; 
-        updateText();
-    }
+    start();
 
-    updateText();
+    if(playing){
+        document.addEventListener(
+            "keydown",
+            (event)=>{
+                if(event.key === "ArrowLeft"){
+                    if (side == 0) side=2;
+                    else side --;
+                    flip();
+                } 
 
-    function updateText(){
-        correctDisplay.innerText = `correct: ${rights}`;
-        wrongDisplay.innerText = `incorrect: ${wrongs}`; 
-        if(index<length){
-            indexDisplay.innerText = `${index +1 }/${length}`;
-            card.innerText = characters[index].chinese_character;
-        }else{
-           
-            showPopup();
-            setScore();
-        }
-      
-    }
-
-    function flip(){
-        switch (side){
-            case 0:
-                card.innerText = characters[index].chinese_character;
-                break;
-            case 1:
-                card.innerText = characters[index].english;
-                break;
-            case 2:
-                card.innerText = characters[index].pronunciation;
-                break;
-        }
-
+                if(event.key ==="ArrowRight"){
+                    if (side == 2) side=0;
+                    else side ++;
+                    flip()
+                }
+                if(event.key ==="ArrowUp"){
+                    event.preventDefault();
+                    rights++;
+                    index++;
+                    updateText();
+                }
+                if(event.key === "ArrowDown"){
+                    event.preventDefault();
+                    wrongs++;
+                    index++;
+                    updateText();
+                }
+            }
+        )
     }
     
+
     card.addEventListener(
         "click",
         ()=>{
@@ -154,10 +148,6 @@
             flip();
         }
     )
-
-    function finished(){
-        console.log("finished");
-    }
 
     right.addEventListener(
         "click",
@@ -186,7 +176,9 @@
         start();
     });
 
-    function setScore(){
+    document.add
+
+    function saveScore(){
         fetch(
             "/setDeckScore",
             {
@@ -206,26 +198,50 @@
 
     }
     
-
+    function start(){
+        side = 0;
+        wrongs = 0;
+        rights = 0;
+        index = 0 ; 
+        side = 0 ; 
+        updateText();
+        playing = true;
+    }
+    
     function showPopup(){
+        finalScore.innerText = `Score: ${rights}`;
 
-        const popup =
-        document.getElementById(
-            "endPopup"
-        );
-
-        const finalScore =
-        document.getElementById(
-            "finalScore"
-        );
-
-        finalScore.innerText =
-            `Score: ${rights}`;
-
-        popup.style.display =
-            "flex";
+        popup.style.display = "flex";
     }
 
-        
+    function flip(){
+        switch (side){
+            case 0:
+                card.innerText = characters[index].chinese_character;
+                break;
+            case 1:
+                card.innerText = characters[index].english;
+                break;
+            case 2:
+                card.innerText = characters[index].pronunciation;
+                break;
+        }
+
+    }
+    
+    function updateText(){
+        correctDisplay.innerText = `correct: ${rights}`;
+        wrongDisplay.innerText = `incorrect: ${wrongs}`; 
+        if(index<length){
+            indexDisplay.innerText = `${index +1 }/${length}`;
+            card.innerText = characters[index].chinese_character;
+        }else{
+            playing = false;
+            showPopup();
+            saveScore();
+        }
+      
+    }
+
 
 </script>
