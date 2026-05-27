@@ -108,10 +108,11 @@
 
     start();
 
-    if(playing){
-        document.addEventListener(
-            "keydown",
-            (event)=>{
+
+    document.addEventListener(
+        "keydown",
+        (event)=>{
+            if(index<length){//if game is still playing
                 if(event.key === "ArrowLeft"){
                     if (side == 0) side=2;
                     else side --;
@@ -135,9 +136,11 @@
                     index++;
                     updateText();
                 }
+
             }
-        )
-    }
+        }
+    );
+    
     
 
     card.addEventListener(
@@ -176,7 +179,6 @@
         start();
     });
 
-    document.add
 
     function saveScore(){
         fetch(
@@ -205,7 +207,6 @@
         index = 0 ; 
         side = 0 ; 
         updateText();
-        playing = true;
     }
     
     function showPopup(){
@@ -234,6 +235,7 @@
         wrongDisplay.innerText = `incorrect: ${wrongs}`; 
         if(index<length){
             indexDisplay.innerText = `${index +1 }/${length}`;
+            side=0;
             card.innerText = characters[index].chinese_character;
         }else{
             playing = false;
