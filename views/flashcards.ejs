@@ -89,6 +89,8 @@
     const correctDisplay = document.getElementById("correctDisplay");
     const wrongDisplay = document.getElementById("wrongDisplay");
     const indexDisplay = document.getElementById("indexDisplay");
+    const exitGame = document.getElementById("exitGame");
+    const restartGame = document.getElementById("restartGame");
 
     const deck =
     <%- JSON.stringify(deck) %>;
@@ -104,15 +106,25 @@
     let side = 0;
     let length = characters.length;
 
+    function start(){
+        side = 0;
+        wrongs = 0;
+        rights = 0;
+        index = 0 ; 
+        side = 0 ; 
+        updateText();
+    }
+
     updateText();
 
     function updateText(){
+        correctDisplay.innerText = `correct: ${rights}`;
+        wrongDisplay.innerText = `incorrect: ${wrongs}`; 
         if(index<length){
-            card.innerText = characters[index].chinese_character;
-            correctDisplay.innerText = `correct: ${rights}`;
-            wrongDisplay.innerText = `incorrect: ${wrongs}`;
             indexDisplay.innerText = `${index +1 }/${length}`;
+            card.innerText = characters[index].chinese_character;
         }else{
+           
             showPopup();
             setScore();
         }
@@ -154,7 +166,7 @@
             index++;
             updateText();
         }
-    )
+    );
     wrong.addEventListener(
         "click",
         ()=>{
@@ -162,7 +174,18 @@
             index++;
             updateText(); 
         }
-    )
+    );
+
+    exitGame.addEventListener("click",()=>{
+        window.location.href =
+            "/decks";
+    });
+
+    restartGame.addEventListener("click",()=>{
+        endPopup.style.display = "none";
+        start();
+    });
+
     function setScore(){
         fetch(
             "/setDeckScore",
@@ -182,6 +205,7 @@
         );
 
     }
+    
 
     function showPopup(){
 
@@ -201,6 +225,7 @@
         popup.style.display =
             "flex";
     }
+
         
 
 </script>
