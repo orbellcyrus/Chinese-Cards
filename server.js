@@ -53,19 +53,27 @@ app.get("/dictionary",(req,res)=>{
 
     AND UsersLearned.user_id = ?
     `;
+    let deck_sql ="SELECT * FROM Decks WHERE user_id = ?"
 
     db.query(
         sql,
         [req.session.userId],
-        (err,results)=>{
+        (err,results1)=>{
 
             if(err) throw err;
 
-            res.render(
-                "dictionary",
-                {characters:results}
+            db.query(deck_sql,
+                [req.session.userId],
+                (err,results2)=>{
+                    if(err) throw err;
+                     res.render(
+                        "dictionary",
+                        {characters:results1,
+                            decks:results2
+                        }
             );
-
+                }
+            );
         }
     );
 
@@ -319,6 +327,42 @@ app.post("/addDeck",(req,res)=>{
         if(err) throw err;
         res.redirect("/decks")
     });
+});
+
+app.post("/addCharacterToDeck", (req,res)=>{
+    const deckId =
+            req.body.deckId;
+        const characterId =
+            req.body.characterId;
+    let sql= "INSERT INTO DeckCharacters(deck_id,character_id) VALUES(?,?)"
+    db.query(
+        sql,
+        [deckId,characterId],
+        (err)=>{
+            if(err) throw err;
+            res.redirect("/dictionary")
+        }
+    )
+})
+
+app.post("/setDeckScore", (req,res)=>{
+    const score =
+        req.body.score
+    const deck =
+        req.body.deck_id
+    sql = `UPDATE Decks 
+            SET 
+                high_score = ?,
+                last_played = NOW()
+            WHERE id = ?
+    `
+    db.query(sql,
+        [score,deck],
+        (err)=>{
+            if(err) throw err;
+            res.redirect("/decks")
+        }
+    );
 });
 
 app.listen(3000, () => {

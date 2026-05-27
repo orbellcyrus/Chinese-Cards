@@ -18,9 +18,32 @@
             <li><a href="/">Home</a></li>
             <li><a href="/dictionary">Dictionary</a></li>
             <li><a href="/account">Account</a></li>
-            <li><a href="/flashcards">Flashcards</a></li>
+            <li><a href="/decks">Decks</a></li>
         </ul>
     </nav>
+
+    <div
+        id="endPopup"
+        class="popup">
+
+        <div class="popupContent">
+
+            <h2>
+                Deck Finished!
+            </h2>
+            <p id="finalScore">
+                Score: 0
+            </p>
+
+            <button id="restartGame">
+                Restart
+            </button>
+            <button id ="exitGame">
+                Back to Decks
+            </button>
+        </div>
+
+    </div>
     
     <div class ="flashCardBody">
         <div class = "flashCardsInterface">
@@ -90,12 +113,11 @@
             wrongDisplay.innerText = `incorrect: ${wrongs}`;
             indexDisplay.innerText = `${index +1 }/${length}`;
         }else{
-            finished();
+            showPopup();
+            setScore();
         }
       
     }
-
-    
 
     function flip(){
         switch (side){
@@ -122,7 +144,7 @@
     )
 
     function finished(){
-
+        console.log("finished");
     }
 
     right.addEventListener(
@@ -141,5 +163,44 @@
             updateText(); 
         }
     )
+    function setScore(){
+        fetch(
+            "/setDeckScore",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+                body:JSON.stringify({
+                    deck_id:deck.id,
+                    score: rights
+                })
+
+            }
+        );
+
+    }
+
+    function showPopup(){
+
+        const popup =
+        document.getElementById(
+            "endPopup"
+        );
+
+        const finalScore =
+        document.getElementById(
+            "finalScore"
+        );
+
+        finalScore.innerText =
+            `Score: ${rights}`;
+
+        popup.style.display =
+            "flex";
+    }
+        
 
 </script>
