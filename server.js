@@ -100,7 +100,9 @@ app.get("/account", (req, res) => {
 });
 
 app.get("/decks", (req,res)=>{
-    sql = "SELECT * FROM Decks where user_id = ?"
+    decks_sql = "SELECT * FROM Decks where user_id = ?"
+    characters_sql = "SELECT * FROM "
+    
     db.query(sql,
         [req.session.userId],
         (err,results)=>{
@@ -133,7 +135,6 @@ app.get("/flashcards/:id",(req,res)=>{
                 return res.send(
                     "Deck not found."
                 );
-
             }
             let characters_sql =
             `
@@ -154,19 +155,11 @@ app.get("/flashcards/:id",(req,res)=>{
                     res.render(
                         "flashcards",
                         {
-                            deck:
-                                deckResults[0],
-                            characters:
-                                characterResults
-                        }
-                    );
-
-                }
-            );
-        }
-
-    );
-
+                            deck: deckResults[0],
+                            characters: characterResults
+                        });
+                });
+        });
 });
 
 
@@ -334,6 +327,7 @@ app.post("/addCharacterToDeck", (req,res)=>{
             req.body.deckId;
         const characterId =
             req.body.characterId;
+    let sql_check = "SELECT * FROM "
     let sql= "INSERT INTO DeckCharacters(deck_id,character_id) VALUES(?,?)"
     db.query(
         sql,
