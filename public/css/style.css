@@ -179,3 +179,38 @@ body{
 
     min-width:300px;
 }
+
+.pageLayout{
+
+    display:flex;
+
+    height:100vh;
+}
+
+.leftPanel{
+
+    width:30%;
+
+    border-right:
+        2px solid #ccc;
+
+    padding:20px;
+}
+
+.rightPanel{
+
+    width:70%;
+
+    padding:20px;
+}
+
+.deckButton{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:10px;
+
+    cursor:pointer;
+}

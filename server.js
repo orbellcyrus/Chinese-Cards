@@ -189,7 +189,27 @@ app.get("/flashcards/:id",(req,res)=>{
 });
 
 app.get("/create",(req,res)=>{
-    res.render("create");
+    let deck_sql = "SELECT * FROM Decks WHERE user_id = ?"
+    let characters_sql= "SELECT * FROM CharacterDictionary"
+    db.query(
+        deck_sql,
+        [req.session.userId],
+        (err,decks)=>{
+            if(err) throw err;
+            db.query(
+                characters_sql,
+                (err,characters)=>{
+                    if(err) throw err;
+                    res.render("create",
+                        {
+                            decks, characters
+
+                        }
+                    );
+                }
+            );
+        }
+    );
 });
 
 
