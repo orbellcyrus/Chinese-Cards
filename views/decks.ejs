@@ -45,7 +45,7 @@
 
                 <p>
                     Accuracy:
-                    <%= deck.high_score %>/decksize
+                    <%= deck.high_score %>/<%= deck.characters.length %>
                 </p>
 
                 <p>
@@ -54,8 +54,7 @@
                 </p>
                  <p>
 
-                    <%= deck.characters
-                    .join(" ") %>
+                    <%= deck.characters.join(" ") %>
 
                 </p>
 

@@ -121,7 +121,7 @@ app.get("/decks",(req,res)=>{
                         decksMap[row.deck_id]={
                             id:row.deck_id,
                             title:row.title,
-                            time:row.last_played,
+                            last_played:row.last_played,
                             high_score:row.high_score,
                             characters:[]
                         };
