@@ -103,13 +103,41 @@ body{
 
 .deckContainer{
 
-    display:flex;
+    display:grid;
 
-    flex-wrap:wrap;
+    grid-template-columns:
+        repeat(5,1fr);
 
-    gap:20px;
+    gap:25px;
+
+    width:80%;
+
+    margin:auto;
+
+    margin-top:40px;
 }
 
+
+.deckCard{
+
+    padding:20px;
+
+    background:rgb(136, 152, 153);
+
+    border-radius:15px;
+
+    border:3px solid #b0b0b0;
+
+    text-decoration:none;
+
+    color:black;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
 .popup{
 
     display:none;
