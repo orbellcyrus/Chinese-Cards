@@ -99,21 +99,47 @@ app.get("/account", (req, res) => {
     });
 });
 
-app.get("/decks", (req,res)=>{
-    decks_sql = "SELECT * FROM Decks where user_id = ?"
-    characters_sql = "SELECT * FROM "
-    
-    db.query(sql,
-        [req.session.userId],
+app.get("/decks",(req,res)=>{
+    let sql = `
+    SELECT Decks.id AS deck_id, Decks.title, Decks.high_score, Decks.last_played,   CharacterDictionary.chinese_character  FROM Decks
+
+    LEFT JOIN DeckCharacters ON Decks.id = DeckCharacters.deck_id
+
+    LEFT JOIN CharacterDictionary ON DeckCharacters.character_id = CharacterDictionary.id
+
+    WHERE Decks.user_id=?;
+    `
+    db.query(
+        sql,
+        [req.session.userId], 
         (err,results)=>{
             if(err) throw err;
-            res.render(
-                "decks",
-                {decks: results}
-            )
+            const decksMap = {};
+            results.forEach(
+                row=>{
+                    if(!decksMap[row.deck_id]){
+                        decksMap[row.deck_id]={
+                            id:row.deck_id,
+                            title:row.title,
+                            time:row.last_played,
+                            high_score:row.high_score,
+                            characters:[]
+                        };
+                    }
+                    if(row.chinese_character){
+                        decksMap[row.deck_id].characters.push(row.chinese_character);
+                    }
+                }
+            );
+            res.render("decks",
+                {
+                    decks: Object.values(decksMap)
+                }
+            );
         }
-    )
+    );
 });
+
 
 app.get("/flashcards/:id",(req,res)=>{
     let verification_sql =
