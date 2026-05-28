@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link
-        rel="stylesheet"
-        href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -22,34 +20,35 @@
         </ul>
     </nav>
 
-    <h1>Sign Up</h1>
-    <form action="/addUser" method="POST" >
-        <label>Username</label>
-        <input type="text" name="username" required>
+    <h1>Add Character</h1>
+    <form action="/addCharacter" method="POST">
 
-        <label>Password</label>
-        <input type="text" name="password" required>
+        <label>Character</label>
+        <input type="text" name="character" required>
 
-        <label>Email</label>
-        <input type="text" name="email" required>
+        <label>English</label>
+        <input type="text" name="english" required>
+
+        <label>Pronunciation</label>
+        <input type="text" name="pronunciation" required>
 
         <button type="submit">
             Submit
         </button>
     </form>
 
-    <h1>Log In</h1>
-    <form action="/login" method="POST">
-        <label>Username</label>
-        <input name="username">
-        
-        <label>Password</label>
-        <input type="password" name="password">
-        <button>
-            Login
+
+    <h1>Create Deck</h1>
+    <form action="/addDeck" method="POST">
+
+        <label>Name</label>
+        <input type="text" name="title" required>
+
+        <button type="submit">
+            Submit
         </button>
+
     </form>
-
-
+    
 </body>
 </html>

@@ -188,6 +188,10 @@ app.get("/flashcards/:id",(req,res)=>{
         });
 });
 
+app.get("/create",(req,res)=>{
+    res.render("create");
+});
+
 
 
 app.post("/addCharacter",(req,res)=>{

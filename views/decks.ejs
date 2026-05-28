@@ -18,20 +18,11 @@
             <li><a href="/dictionary">Dictionary</a></li>
             <li><a href="/account">Account</a></li>
             <li><a href="/decks">Decks</a></li>
+            <li><a href="/create">Create Decks</a></li>
         </ul>
     </nav>
+    
 
-    <h1>Create Deck</h1>
-    <form action="/addDeck" method="POST">
-
-        <label>Name</label>
-        <input type="text" name="title" required>
-
-        <button type="submit">
-            Submit
-        </button>
-
-    </form>
     
     <div class="deckContainer">
         <% decks.forEach(deck => { %>
@@ -39,7 +30,7 @@
                 href="/flashcards/<%= deck.id %>"
                 class="deckCard">
 
-                <h2>
+                <h2 class = "deckTitle">
                     <%= deck.title %>
                 </h2>
 
@@ -64,4 +55,25 @@
         
     </div>
 </body>
+<script>
+    const cards = document.querySelectorAll( ".deckCard");
+    cards.forEach(card=>{
+        const title = card.querySelector(".deckTitle");
+
+        const original = title.innerText;
+
+        card.addEventListener( "mouseenter",
+            ()=>{
+
+                title.innerText = "Click to Study";
+            }
+        );
+        card.addEventListener( "mouseleave",
+            ()=>{
+                title.innerText = original;
+            }
+        );
+    });
+
+</script>
 </html>
