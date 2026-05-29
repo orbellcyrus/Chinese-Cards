@@ -21,7 +21,6 @@
     </nav>
 
 
-
     <h1>Create Deck</h1>
     <form action="/addDeck" method="POST">
 
@@ -100,6 +99,49 @@
             }
         );
     }
+    //fix this later
+    document
+    .getElementById(
+        "searchBox"
+    )
+    .addEventListener(
+
+        "input",
+
+        ()=>{
+
+            const search =
+            document
+            .getElementById(
+                "searchBox"
+            )
+            .value
+            .toLowerCase();
+
+            document
+            .querySelectorAll(
+                ".characterRow"
+            )
+            .forEach(row=>{
+
+                row.style.display =
+
+                    row.innerText
+                    .toLowerCase()
+                    .includes(
+                        search
+                    )
+
+                    ? "flex"
+
+                    : "none";
+
+            });
+
+        }
+
+    );
+
 </script>
 
 </html>

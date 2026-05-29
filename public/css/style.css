@@ -1,6 +1,6 @@
 body{
     margin:0;
-    background-image:url("/images/background.jpeg");
+    background-color: rgb(227, 247, 205);
 }
 
 .navbar{
