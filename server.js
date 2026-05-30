@@ -83,21 +83,31 @@ app.get("/account", (req, res) => {
     if(!req.session.userId){
         return res.redirect("/login");
     }
-    let sql =
-    "SELECT * FROM Users WHERE id = ?" ;
+
+    let sql = "SELECT * FROM Users WHERE id = ?" ;
+    let character_sql =`
+    SELECT CharacterDictionary.* FROM UsersLearned
+    JOIN CharacterDictionary ON UsersLearned.character_id = CharacterDictionary.id 
+    WHERE UsersLearned.user_id = ?
+    `
     db.query(sql,
         [req.session.userId]
-        ,(err,results)=>{
-
+        ,(err,userResults)=>{
         if(err) throw err;
-
-        res.render(
-            "account",
-            { user: results[0] }
+        db.query(character_sql,[req.session.userId],
+            (err,characterResults)=>{
+                res.render(
+                "account",
+                { user: userResults[0],
+                  characters: characterResults
+                 }
+                );
+            }
         );
-
     });
 });
+
+
 
 app.get("/decks",(req,res)=>{
     let sql = `
@@ -188,28 +198,8 @@ app.get("/flashcards/:id",(req,res)=>{
         });
 });
 
-app.get("/create",(req,res)=>{
-    let deck_sql = "SELECT * FROM Decks WHERE user_id = ?"
-    let characters_sql= "SELECT * FROM CharacterDictionary"
-    db.query(
-        deck_sql,
-        [req.session.userId],
-        (err,decks)=>{
-            if(err) throw err;
-            db.query(
-                characters_sql,
-                (err,characters)=>{
-                    if(err) throw err;
-                    res.render("create",
-                        {
-                            decks, characters
+app.get("/create/:id",(req,res)=>{
 
-                        }
-                    );
-                }
-            );
-        }
-    );
 });
 
 

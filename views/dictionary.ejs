@@ -38,103 +38,85 @@
             Submit
         </button>
     </form>
-    
-    <h1>Characters</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Character / 汉子</th>
-            <th>English</th>
-            <th>Pronunciation / 拼音</th>
-        </tr>
-
-        <% characters.forEach(character =>{ %>
+    <div class = "dictionaryPage">
+        <input id = "searchBar" placeholder = "Search characters">
+        <h1>Characters</h1>
+        <table>
             <tr>
-                <td>
-                    <%= character.id %>
-                </td>
-                
-                <td>
-                    <%= character.chinese_character %>
-                </td>
-
-                <td>
-                    <%= character.english %>
-                </td>
-
-                <td>
-                    <%= character.pronunciation %>
-                </td>
-
-                <td>
-                    <% if(character.known){ %>
-
-                        <form
-                            action="/unlearnCharacter"
-                            method="POST">
-
-                            <input
-                                type="hidden"
-                                name="characterId"
-                                value="<%= character.id %>">
-
-                            <button>
-                                ✓ Known
-                            </button>
-
-                        </form>
-
-                    <% } else { %>
-
-                        <form
-                            action="/learnCharacter"
-                            method="POST">
-
-                            <input
-                                type="hidden"
-                                name="characterId"
-                                value="<%= character.id %>">
-
-                            <button>
-                                Learn
-                            </button>
-
-                        </form>
-
-                    <% } %>
-                </td>
-
-                <td>
-                    <form
-                        action="/addCharacterToDeck"
-                        method="POST">
-                        <select
-                            name="deckId">
-                                <% decks.forEach(deck => { %>
-                                    <option
-                                        value="<%= deck.id %>">
-                                        <%= deck.title %>
-                                    </option>
-                                <% }) %>
-                        </select>
-
-                        <input
-                            type="hidden"
-                            name="characterId"
-                            value="<%= character.id %>">
-                        <button>
-                            add to deck
-                        </button>
-                    </form>
-                </td>
-
+                <th>Character / 汉子</th>
+                <th>English</th>
+                <th>Pronunciation / 拼音</th>
             </tr>
+            <% characters.forEach(character =>{ %>
+                <tr class = "characterRow">
+                    <td>
+                        <%= character.chinese_character %>
+                    </td>
 
-        <% }) %>
-        
+                    <td>
+                        <%= character.english %>
+                    </td>
 
-    </table>
+                    <td>
+                        <%= character.pronunciation %>
+                    </td>
+
+                    <td>
+                        <% if(character.known){ %>
+                            <form
+                                action="/unlearnCharacter"
+                                method="POST">
+                                <input
+                                    type="hidden"
+                                    name="characterId"
+                                    value="<%= character.id %>">
+                                <button>
+                                    ✓ Known
+                                </button>
+                            </form>
+                        <% } else { %>
+                            <form
+                                action="/learnCharacter"
+                                method="POST">
+
+                                <input
+                                    type="hidden"
+                                    name="characterId"
+                                    value="<%= character.id %>">
+                                <button>
+                                    Learn
+                                </button>
+                            </form>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }) %>
+
+        </table>
+
+    </div>
+   
 
 </body>
+<script>
+    
+
+    const searchBar = document.getElementById("searchBar");
+    searchBar.addEventListener("input",()=>{
+        const search = searchBar.value.toLowerCase();
+        const rows = document.querySelectorAll(".characterRow");
+        rows.forEach(row=>{
+            const text = row.innerText.toLowerCase();
+            if(text.includes(search)){
+                row.style.display="";
+            }else{
+                row.style.display= "none";
+            }
+        })
+    })
+   
+   
+</script>
+
 </html>
 

@@ -23,10 +23,26 @@
         </ul>
     </nav>
 
-    <h1><%= user.username %></h1>
-    <p><%= user.email %></p>
+    <div class = accountInfo>
+        <h1><%= user.username %></h1>
+        <p>email:<%= user.email %></p>
+        <P>account created: <%= user.created_at %></P>
+        <div class="usersCharacters">
+            <h1>
+                Known Characters
+            </h1>
+            <% characters.forEach(character =>{ %>
+                <p>
+                    <%=character.english %>
+                    
+                    <%=character.chinese_character%>
+                </p>
+            <% }) %>
+        </div>
+    </div>
     
 
-    
+
+  
 </body>
 </html>
