@@ -25,7 +25,12 @@
 
     
     <div class="deckContainer">
+        
         <% decks.forEach(deck => { %>
+            <a href="create/<%=deck.id%>">
+                edit
+            </a>
+            
             <a
                 href="/flashcards/<%= deck.id %>"
                 class="deckCard">
@@ -44,12 +49,11 @@
                     <%= deck.last_played %>
                 </p>
                  <p>
-
                     <%= deck.characters.join(" ") %>
-
                 </p>
 
             </a>
+            
         <% }) %>
 
         

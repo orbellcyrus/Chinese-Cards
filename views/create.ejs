@@ -19,128 +19,71 @@
             <li><a href="/create">Create Decks</a></li>
         </ul>
     </nav>
+    <h1>
+        <%= deck.title%>
+    </h1>
+    <%allChars.forEach(character =>{%>
+        <p><%=character.chinese_character%>-<%=character.english%></p>
+        <button class="addButton" data-character-id="<%= character.id %>"> Add</button>
+    <%})%>
 
-
-    <h1>Create Deck</h1>
-    <form action="/addDeck" method="POST">
-
-        <label>Name</label>
-        <input type="text" name="title" required>
-
-        <button type="submit">
-            Submit
-        </button>
-
-    </form>
+    <%deckChars.forEach(character =>{%>
+        <p><%=character.chinese_character%>-<%=character.english%></p>
+        <button class="removeButton" data-character-id="<%= character.id %>">Remove</button>
+    <%})%>
+        
     
-    <div class = "pageLayout">
-        <div class = "leftPanel">
-            <h2>
-                My Decks
-            </h2>
-            <% decks.forEach(deck=>{ %>
-                <button class = "deckButton" onclick= "selectDeck( <%= deck.id %>, '<%= deck.title %>')">
-                    <%= deck.title %>
-                </button>
-            <% }) %>
-        </div>
 
-        <div class = "rightPanel">
-            <h2 id="selectedDeck">
-                Select a deck
-            </h2>
-            <input id = "searchBox" placeholder = "Search characters">
-            <div id = "result">
-                <% characters.forEach(character=>{ %>
-                    <div class = "characterRow">
-                    <span>
-                        <%= character.chinese_character %>
-                        —
-                        <%= character.english %>
-                    </span>
-                    
-                    <button onclick = "addCharacter(<%= character.id %>)">
-                        Add
-                    </button>
-
-                    </div>
-                   
-                <% }) %>
-            </div>
-        </div>
-    </div>
-    
 </body>
 
 <script>
-    let selectedDeckId = null;
-    function selectDeck(id , title){
-        selectedDeckId = id;
-        document.getElementById("selectedDeck").innerText= title;
-    }
-    function addCharacter(characterId){
-        if(!selectedDeckId){
-            alert("select a deck first!");
-            return
-        }
-        fetch(
-            "/addCharacterToDeck",
-            {
-                method:"POST",
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-                body:
-                JSON.stringify({
-                    deckId: selectedDeckId,
-                    characterId
-                })
+    document.querySelectorAll(".addButton").forEach(button=>{
+        button.addEventListener(
+            "click",
+            ()=>{
+                const characterId = button.dataset.characterId;
+                addChar(characterId);
             }
         );
-    }
-    //fix this
-    document
-    .getElementById(
-        "searchBox"
-    )
-    .addEventListener(
-
-        "input",
-
-        ()=>{
-
-            const search =
-            document
-            .getElementById(
-                "searchBox"
-            )
-            .value
-            .toLowerCase();
-
-            document
-            .querySelectorAll(
-                ".characterRow"
-            )
-            .forEach(row=>{
-
-                row.style.display =
-
-                    row.innerText
-                    .toLowerCase()
-                    .includes(
-                        search
-                    )
-
-                    ? "flex"
-
-                    : "none";
-
-            });
-
+    });
+    
+    function addChar(characterId){
+        fetch("/addCharacterToDeck",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                deckId: <%=deck.id%>,
+                characterId: characterId
+            })
         }
+        )
+    }     
 
-    );
+    document.querySelectorAll(".removeButton").forEach(button=>{
+        button.addEventListener(
+            "click",
+            ()=>{
+                const characterId = button.dataset.characterId;
+                removeChar(characterId);
+            }
+        );
+    });
+    
+    function removeChar(characterId){
+        fetch("/removeCharacterFromDeck",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                deckId: <%=deck.id%>,
+                characterId: characterId
+            })
+        }
+        )
+    } 
 
 </script>
 

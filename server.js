@@ -199,7 +199,55 @@ app.get("/flashcards/:id",(req,res)=>{
 });
 
 app.get("/create/:id",(req,res)=>{
-
+    deck_sql = `SELECT * FROM Decks WHERE id = ? AND user_id =?`
+    deck_chars_sql = `SELECT CharacterDictionary.* FROM CharacterDictionary 
+                        JOIN DeckCharacters ON CharacterDictionary.id= DeckCharacters.character_id
+                        WHERE DeckCharacters.deck_id = ?`
+    all_chars_sql = `
+    SELECT *
+    FROM CharacterDictionary
+    WHERE id NOT IN (
+        SELECT character_id
+        FROM DeckCharacters
+        WHERE deck_id = ?
+    )
+    `
+    db.query(
+        deck_sql,
+        [ 
+            req.params.id,
+            req.session.userId
+        ],
+        (err,deckResults)=>{
+            if(err) throw err;
+            if(deckResults.length===0){
+                return res.send(
+                    "Deck not found."
+                );
+            }
+            db.query(
+                deck_chars_sql,
+                [req.params.id],
+                (err,deckCharsResults)=>{
+                    if(err) throw err;
+                    db.query(
+                        all_chars_sql,
+                        [req.params.id],
+                        (err,allCharsResults)=>{
+                            if(err) throw err;
+                            res.render("create",
+                                {
+                                    deck: deckResults[0],
+                                    deckChars: deckCharsResults,
+                                    allChars: allCharsResults
+                                }
+                            )
+                        }
+                    );
+                }
+            );            
+        }
+    );
 });
 
 
@@ -363,11 +411,10 @@ app.post("/addDeck",(req,res)=>{
 });
 
 app.post("/addCharacterToDeck", (req,res)=>{
-    const deckId =
-            req.body.deckId;
-        const characterId =
-            req.body.characterId;
-    let sql_check = "SELECT * FROM "
+    const deckId =  req.body.deckId;
+    const characterId = req.body.characterId;
+    // add check for dupes:
+    // let sql_check = "SELECT * FROM "
     let sql= "INSERT INTO DeckCharacters(deck_id,character_id) VALUES(?,?)"
     db.query(
         sql,
@@ -377,7 +424,22 @@ app.post("/addCharacterToDeck", (req,res)=>{
             res.redirect("/dictionary")
         }
     )
-})
+});
+app.post("/removeCharacterFromDeck", (req,res)=>{
+    const deckId =
+            req.body.deckId;
+        const characterId =
+            req.body.characterId;
+    let sql= "DELETE FROM  DeckCharacters WHERE deck_id = ? and character_id=?"
+    db.query(
+        sql,
+        [deckId,characterId],
+        (err)=>{
+            if(err) throw err;
+            res.redirect("/dictionary")
+        }
+    )
+});
 
 app.post("/setDeckScore", (req,res)=>{
     const score =
