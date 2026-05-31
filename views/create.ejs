@@ -58,7 +58,9 @@
                 characterId: characterId
             })
         }
-        )
+        ).then(()=>{
+            location.reload();
+        });
     }     
 
     document.querySelectorAll(".removeButton").forEach(button=>{
@@ -82,7 +84,9 @@
                 characterId: characterId
             })
         }
-        )
+        ).then(()=>{
+            location.reload();
+        });
     } 
 
 </script>
