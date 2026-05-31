@@ -19,12 +19,18 @@
             <li><a href="/dictionary">Dictionary</a></li>
             <li><a href="/account">Account</a></li>
             <li><a href="/decks">Decks</a></li>
-            <li><a href="/create">Create Decks</a></li>
         </ul>
     </nav>
 
+
     <div class = accountInfo>
+    
         <h1><%= user.username %></h1>
+        <form action="/logout" method="POST" >
+            <button type="submit">
+                logout
+            </button>
+        </form>
         <p>email:<%= user.email %></p>
         <P>account created: <%= user.created_at %></P>
         <div class="usersCharacters">
@@ -34,7 +40,7 @@
             <% characters.forEach(character =>{ %>
                 <p>
                     <%=character.english %>
-                    
+                    <%=character.pronunciation%>
                     <%=character.chinese_character%>
                 </p>
             <% }) %>

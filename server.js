@@ -29,11 +29,7 @@ app.get("/login", (req, res) => {
 });
 
 
-app.get("/dictionary",(req,res)=>{
-    if(!req.session.userId){
-        return res.redirect("/account");
-    }
-
+app.get("/dictionary",requireLogin,(req,res)=>{
     let sql = `
     SELECT
         CharacterDictionary.*,
@@ -79,11 +75,7 @@ app.get("/dictionary",(req,res)=>{
 
 });
 
-app.get("/account", (req, res) => {
-    if(!req.session.userId){
-        return res.redirect("/login");
-    }
-
+app.get("/account",requireLogin, (req, res) => {
     let sql = "SELECT * FROM Users WHERE id = ?" ;
     let character_sql =`
     SELECT CharacterDictionary.* FROM UsersLearned
@@ -109,7 +101,7 @@ app.get("/account", (req, res) => {
 
 
 
-app.get("/decks",(req,res)=>{
+app.get("/decks",requireLogin,(req,res)=>{
     let sql = `
     SELECT Decks.id AS deck_id, Decks.title, Decks.high_score, Decks.last_played,   CharacterDictionary.chinese_character  FROM Decks
 
@@ -151,7 +143,7 @@ app.get("/decks",(req,res)=>{
 });
 
 
-app.get("/flashcards/:id",(req,res)=>{
+app.get("/flashcards/:id",requireLogin,(req,res)=>{
     let verification_sql =
     `
     SELECT *
@@ -198,7 +190,7 @@ app.get("/flashcards/:id",(req,res)=>{
         });
 });
 
-app.get("/create/:id",(req,res)=>{
+app.get("/create/:id",requireLogin,(req,res)=>{
     deck_sql = `SELECT * FROM Decks WHERE id = ? AND user_id =?`
     deck_chars_sql = `SELECT CharacterDictionary.* FROM CharacterDictionary 
                         JOIN DeckCharacters ON CharacterDictionary.id= DeckCharacters.character_id
@@ -252,7 +244,7 @@ app.get("/create/:id",(req,res)=>{
 
 
 
-app.post("/addCharacter",(req,res)=>{
+app.post("/addCharacter",requireLogin,(req,res)=>{
 
     let character = req.body.character;
     let english = req.body.english;
@@ -297,7 +289,7 @@ app.post("/addUser", async (req,res)=>{
                     (err)=>{
                         if(err) throw err;
                         console.log("User Added");
-                        res.redirect("/account");
+                        res.redirect("/login");
                     }
                 );
             }
@@ -348,8 +340,20 @@ app.post("/login",(req,res)=>{
     );
 });
 
+app.post("/logout",requireLogin,(req,res)=>{
+    req.session.destroy(
+        err=>{
+            if(err)
+                throw err;
+            res.redirect(
+                "/login"
+            );
+        }
+    );
+});
 
-app.post("/learnCharacter", (req,res)=>{
+
+app.post("/learnCharacter", requireLogin,(req,res)=>{
     const userID = req.session.userId;
     const charID = req.body.characterId;
     let sql = "INSERT INTO UsersLearned(user_id , character_id) VALUES (?, ?)";
@@ -367,7 +371,7 @@ app.post("/learnCharacter", (req,res)=>{
 });
 
 
-app.post("/unlearnCharacter",(req,res)=>{
+app.post("/unlearnCharacter",requireLogin,(req,res)=>{
 
     const userId =
         req.session.userId;
@@ -397,7 +401,7 @@ app.post("/unlearnCharacter",(req,res)=>{
 });
 
 
-app.post("/addDeck",(req,res)=>{
+app.post("/addDeck",requireLogin,(req,res)=>{
     const title = 
         req.body.title;
     const userId =
@@ -410,7 +414,7 @@ app.post("/addDeck",(req,res)=>{
     });
 });
 
-app.post("/addCharacterToDeck", (req,res)=>{
+app.post("/addCharacterToDeck",requireLogin, (req,res)=>{
     const deckId =  req.body.deckId;
     const characterId = req.body.characterId;
     // add check for dupes:
@@ -425,7 +429,7 @@ app.post("/addCharacterToDeck", (req,res)=>{
         }
     )
 });
-app.post("/removeCharacterFromDeck", (req,res)=>{
+app.post("/removeCharacterFromDeck",requireLogin, (req,res)=>{
     const deckId =
             req.body.deckId;
         const characterId =
@@ -441,7 +445,7 @@ app.post("/removeCharacterFromDeck", (req,res)=>{
     )
 });
 
-app.post("/setDeckScore", (req,res)=>{
+app.post("/setDeckScore", requireLogin, (req,res)=>{
     const score =
         req.body.score
     const deck =
@@ -461,6 +465,17 @@ app.post("/setDeckScore", (req,res)=>{
     );
 });
 
+function requireLogin(req,res,next){
+    if(!req.session.userId){
+        return res.redirect("/login")
+    }
+    next();
+}
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
+
+function formatDates(badDate){
+
+}

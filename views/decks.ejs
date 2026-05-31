@@ -18,47 +18,69 @@
             <li><a href="/dictionary">Dictionary</a></li>
             <li><a href="/account">Account</a></li>
             <li><a href="/decks">Decks</a></li>
-            <li><a href="/create">Create Decks</a></li>
         </ul>
     </nav>
     
 
-    
     <div class="deckContainer">
-        
+        <div class="addDeck">
+            <form
+                action="/addDeck"
+                method="POST">
+
+                <input
+                    type="text"
+
+                    name="title"
+
+                    placeholder=
+                    "New deck title"
+
+                    required>
+
+                <button
+                    type="submit">
+
+                    Create Deck
+
+                </button>
+
+            </form>
+
+        </div>
         <% decks.forEach(deck => { %>
-            <a href="create/<%=deck.id%>">
-                edit
-            </a>
+            <div >
+                <a href="create/<%=deck.id%>">
+                    edit
+                </a>
+                <a class ="deckCard"
+                    href="/flashcards/<%= deck.id %>">
+                    <h2 class = "deckTitle">
+                        <%= deck.title %>
+                    </h2>
+
+                    <p>
+                        Accuracy:
+                        <%= deck.high_score %>/<%= deck.characters.length %>
+                    </p>
+
+                    <p>
+                        Last Played:
+                        <%= deck.last_played %>
+                    </p>
+                    <p>
+                        <%= deck.characters.join(" ") %>
+                    </p>
+
+                </a>
             
-            <a
-                href="/flashcards/<%= deck.id %>"
-                class="deckCard">
-
-                <h2 class = "deckTitle">
-                    <%= deck.title %>
-                </h2>
-
-                <p>
-                    Accuracy:
-                    <%= deck.high_score %>/<%= deck.characters.length %>
-                </p>
-
-                <p>
-                    Last Played:
-                    <%= deck.last_played %>
-                </p>
-                 <p>
-                    <%= deck.characters.join(" ") %>
-                </p>
-
-            </a>
-            
+            </div>
         <% }) %>
 
         
     </div>
 </body>
+
 <script>
     const cards = document.querySelectorAll( ".deckCard");
     cards.forEach(card=>{
@@ -69,7 +91,7 @@
         card.addEventListener( "mouseenter",
             ()=>{
 
-                title.innerText = "Click to Study";
+                title.innerText = "Study";
             }
         );
         card.addEventListener( "mouseleave",
