@@ -433,6 +433,8 @@ a{
     cursor:pointer;
     padding-bottom: 1cap;
     width: 10cm;
+    margin: .5cm
+
 }
 
 .addButton{
