@@ -202,7 +202,6 @@ a{
 .addDeck{
 
     display:flex;
-    flex-direction: column;
     
     justify-content:center;
 
@@ -212,7 +211,7 @@ a{
 
     width:fit-content;
 
-    margin:110px auto;
+    margin:10px auto;
 
     padding:15px;
 
@@ -272,6 +271,9 @@ a{
 .editDeck:hover{
     transform: scale(1.1); 
     background-color:rgb(49, 187, 49);
+}
+.deleteDeck{
+    
 }
 
 
