@@ -465,6 +465,19 @@ app.post("/setDeckScore", requireLogin, (req,res)=>{
     );
 });
 
+app.post("/deleteDeck:id",(req,res)=>{
+    sql = 'DELETE FROM Decks WHERE id =? and user_id =?';
+    deck_id= req.params.id;
+    db.query(
+        sql,
+        [deck_id,req.session.userId],
+        (err)=>{
+            if(err) throw err;
+            res.redirect("/decks")
+        }
+    )
+
+});
 function requireLogin(req,res,next){
     if(!req.session.userId){
         return res.redirect("/login")
@@ -472,10 +485,11 @@ function requireLogin(req,res,next){
     next();
 }
 
+function formatDates(badDate){
+
+}
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
 
-function formatDates(badDate){
-
-}

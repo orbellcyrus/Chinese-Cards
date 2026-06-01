@@ -122,56 +122,6 @@ a{
 
     font-size:24px;
 }
-
-
-.deckContainer{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(5,1fr);
-
-    gap:25px;
-
-    width:80%;
-
-    margin:auto;
-
-    margin-top:40px;
-}
-
-
-.deckCard{
-
-    padding:20px;
-
-    background:rgb(49, 205, 205);
-
-    border-radius:15px;
-
-    border:0px solid #e3fffe;
-
-    text-decoration:none;
-
-    color: #00ff33;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-}
-
-.deckCard:hover{
-    background:rgb(205, 49, 49);
-
-}
-.addDeck{
-    font-size: 20px;
-    background-color: rgb(205, 205, 49);
-    display: flex;
-    flex-direction: column;
-}
 .popup{
 
     display:none;
@@ -207,14 +157,75 @@ a{
     min-width:300px;
 }
 
+.deckContainer{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:25px;
+
+    width:80%;
+
+    margin:auto;
+
+    margin-top:40px;
+}
+
+
+.deckCard{
+
+    padding:20px;
+
+    background:rgb(49, 205, 205);
+
+    border-radius:15px;
+
+    border:0px solid #e3fffe;
+
+    text-decoration:none;
+
+    color:black;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.deckCard:hover{
+    background:rgb(205, 49, 49);
+
+}
+.addDeck{
+    font-size: 20px;
+    background-color: rgb(48, 58, 163);
+    display: flex;
+    flex-direction: column;
+}
+.editDeck{
+    font-size: 200%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(49, 205, 49);
+    border-radius:15px ;
+    margin-bottom: 5%;
+    
+}
+.editDeck:hover{
+    transform: scale(1.1); 
+    background-color:rgb(49, 187, 49);
+}
+
+
 .pageLayout{
 
     display:flex;
 
     height:100vh;
 }
-
-
 
 .accountInfo{
 
@@ -225,4 +236,86 @@ a{
     
 
     align-items:center;
+}
+
+.createCharacterLayout{
+
+    display:flex;
+
+    gap:40px;
+
+    width:90%;
+    margin:auto;
+
+    margin-top:30px;
+
+    
+}
+
+.panel{
+
+    flex:1;
+
+    background:
+        rgb(73, 178, 34);
+
+    padding:20px;
+
+    border-radius:15px;
+}
+
+.searchBar{
+
+    width:90%;
+
+    padding:10px;
+
+    margin-bottom:20px;
+    
+
+    border-radius:8px;
+
+    border:2px solid #ccc;
+}
+
+.characterRow{
+
+    display:flex;
+
+    justify-content:
+        space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+
+    padding:10px;
+
+    background:white;
+
+    border-radius:10px;
+}
+
+.addButton,
+.removeButton{
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+.addButton{
+
+    background:
+        lightgreen;
+}
+
+.removeButton{
+
+    background:
+        salmon;
 }

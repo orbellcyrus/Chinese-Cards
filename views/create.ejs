@@ -18,25 +18,61 @@
             <li><a href="/decks">Decks</a></li>
         </ul>
     </nav>
-    
-    <h1>
-        <%= deck.title%>
-    </h1>
-    <%allChars.forEach(character =>{%>
-        <p><%=character.chinese_character%>-<%=character.english%></p>
-        <button class="addButton" data-character-id="<%= character.id %>"> Add</button>
-    <%})%>
+    <div class = "createCharacterLayout">
+        <div class ="panel">
+            <h2>
+                In Deck
+            </h2>
+            <input class ="searchBar" id ="deckSearch" placeholder="Search deck">
+            <div class = "deckCurrentCharacters">
+                <% deckChars.forEach(character=>{%>
+                    <div class ="characterRow">
+                        <p>
+                            <%= character.chinese_character %> - <%=character.english%> -  <%=character.pronunciation%>
+                        </p>
+                        <button class = "removeButton" data-character-id = "<%=character.id%>">
+                            Remove
+                        </button>
 
-    <%deckChars.forEach(character =>{%>
-        <p><%=character.chinese_character%>-<%=character.english%></p>
-        <button class="removeButton" data-character-id="<%= character.id %>">Remove</button>
-    <%})%>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+
+        <div class ="panel">
+            <h2>
+                Available Characters
+            </h2>
+            <input class ="searchBar" id ="allSearch" placeholder="Search Characters">
+            <div class = "deckNewCharacters">
+                <% allChars.forEach(character=>{%>
+                    <div class ="characterRow">
+                        <p>
+                            <%= character.chinese_character %> - <%=character.english%> -  <%=character.pronunciation%>
+                        </p>
+                        <button class = "addButton" data-character-id = "<%=character.id%>">
+                            Add
+                        </button>
+
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+
+
+    
         
     
 
 </body>
 
 <script>
+
     document.querySelectorAll(".addButton").forEach(button=>{
         button.addEventListener(
             "click",
@@ -89,6 +125,22 @@
         });
     } 
 
+    function setupSearch(inputId, containerClass){
+        const input = document.getElementById(inputId);
+        input.addEventListener("input",()=>{
+            const search = input.value.toLowerCase();
+            const rows = document.querySelectorAll(`.${containerClass} .characterRow`);
+            rows.forEach(row=>{
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(search) ? "flex" : "none";
+            });
+        });
+    }
+    setupSearch("deckSearch","deckCurrentCharacters");
+
+    setupSearch("allSearch","deckNewCharacters");
+
 </script>
+
 
 </html>

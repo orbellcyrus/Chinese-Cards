@@ -50,9 +50,14 @@
         </div>
         <% decks.forEach(deck => { %>
             <div >
-                <a href="create/<%=deck.id%>">
+                <a class = "editDeck" href="create/<%=deck.id%>">
                     edit
                 </a>
+                <form action="/deleteDeck/<%=deck.id %>" method = "post">
+                    <button type="submit">
+                        Delete
+                    </button>
+                </form>
                 <a class ="deckCard"
                     href="/flashcards/<%= deck.id %>">
                     <h2 class = "deckTitle">
