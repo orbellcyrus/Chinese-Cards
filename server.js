@@ -465,9 +465,9 @@ app.post("/setDeckScore", requireLogin, (req,res)=>{
     );
 });
 
-app.post("/deleteDeck:id",(req,res)=>{
+app.post("/deleteDeck/:id",(req,res)=>{
     sql = 'DELETE FROM Decks WHERE id =? and user_id =?';
-    deck_id= req.params.id;
+    const deck_id= req.params.id;
     db.query(
         sql,
         [deck_id,req.session.userId],
