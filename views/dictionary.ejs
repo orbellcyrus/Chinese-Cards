@@ -21,75 +21,67 @@
         </ul>
     </nav>
 
-    <h1>Add Character</h1>
-    <form action="/addCharacter" method="POST">
-
-        <label>Character</label>
-        <input type="text" name="character" required>
-
-        <label>English</label>
-        <input type="text" name="english" required>
-
-        <label>Pronunciation</label>
-        <input type="text" name="pronunciation" required>
-
-        <button type="submit">
-            Submit
-        </button>
-    </form>
     <div class = "dictionaryPage">
-        <input id = "searchBar" placeholder = "Search characters">
-        <h1>Characters</h1>
-        <table>
-            <tr>
-                <th>Character / 汉子</th>
-                <th>English</th>
-                <th>Pronunciation / 拼音</th>
-            </tr>
-            <% characters.forEach(character =>{ %>
-                <tr class = "characterRow">
-                    <td>
-                        <%= character.chinese_character %>
-                    </td>
-
-                    <td>
-                        <%= character.english %>
-                    </td>
-
-                    <td>
-                        <%= character.pronunciation %>
-                    </td>
-
-                    <td>
-                        <% if(character.known){ %>
-                            <form
-                                action="/unlearnCharacter"
-                                method="POST">
-                                <input
-                                    type="hidden"
-                                    name="characterId"
-                                    value="<%= character.id %>">
-                                <button>
-                                    ✓ Known
-                                </button>
-                            </form>
-                        <% } else { %>
-                            <form
-                                action="/learnCharacter"
-                                method="POST">
-
-                                <input
-                                    type="hidden"
-                                    name="characterId"
-                                    value="<%= character.id %>">
-                                <button>
-                                    Learn
-                                </button>
-                            </form>
-                        <% } %>
-                    </td>
+        
+        <h1>Characters</h1> 
+        <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
+        <table class = "dictionaryTable">
+            <thead>
+                <tr>
+                    <th>Character / 汉子</th>
+                    <th>English</th>
+                    <th>Pronunciation / 拼音</th>
+                    <th>Known</th>
                 </tr>
-            <% }) %>
+            </thead>
+            <tbody>
+                <% characters.forEach(character =>{ %>
+                    <tr class = "dictionaryRow">
+                        <td>
+                            <%= character.chinese_character %>
+                        </td>
+
+                        <td>
+                            <%= character.english %>
+                        </td>
+
+                        <td>
+                            <%= character.pronunciation %>
+                        </td>
+
+                        <td>
+                            <% if(character.known){ %>
+                                <form
+                                    action="/unlearnCharacter"
+                                    method="POST">
+                                    <input
+                                        type="hidden"
+                                        name="characterId"
+                                        value="<%= character.id %>">
+                                    <button>
+                                       ✅ Click To Unlearn
+                                    </button>
+                                </form>
+                            <% } else { %>
+                                <form
+                                    action="/learnCharacter"
+                                    method="POST">
+
+                                    <input
+                                        type="hidden"
+                                        name="characterId"
+                                        value="<%= character.id %>">
+                                    <button>
+                                        ❌ Click To Learn
+                                    </button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+                
+            </tbody>
+            
 
         </table>
 

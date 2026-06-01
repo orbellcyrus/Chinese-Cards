@@ -57,6 +57,22 @@ a{
 }
 
 
+.dictionarySearchBar{
+
+    width:350px;
+
+    padding:10px;
+
+    font-size:18px;
+
+    margin-bottom:20px;
+
+    border-radius:8px;
+
+    border:2px solid #ccc;
+}
+
+
 .flashCardBody{
     display:flex;
 
@@ -268,7 +284,6 @@ a{
 .addDeck button:hover{
 
     background:rgb(50,100,180);
-
 }
 .editDeck{
     font-size: 200%;
@@ -299,8 +314,6 @@ a{
     transform: scale(1.1); 
     background-color:rgb(187, 49, 49);
 }
-
-
 
 
 .pageLayout{
@@ -340,11 +353,28 @@ a{
     flex:1;
 
     background:
-        rgb(73, 178, 34);
+        rgb(241, 245, 222);
 
     padding:20px;
 
     border-radius:15px;
+
+    min-height:100vh;
+}
+.createPageCharacterRow{
+    padding-left: 1cm;
+    font-size: larger;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    
+}
+.createPageCharacterRow:hover{
+    background-color: rgb(207, 210, 194);
+    font-size: x-large;
+    font-weight: bold;
+
 }
 
 .createSearchBar{
@@ -360,23 +390,35 @@ a{
 
     border:2px solid #ccc;
 }
+.dictionaryTable{
+    border-collapse:collapse;
+    font-size: 120%;
+    
+}
+.dictionaryTable th,
+.dictionaryTable td{
 
-.characterRow{
+    border:1px solid #ccc;
 
-    display:flex;
+    padding:12px;
 
-    justify-content:
-        space-between;
+    text-align:left;
+}
+.dictionaryTable th{
 
-    align-items:center;
+    background:#163230;
 
-    margin-bottom:10px;
+    color:rgb(222, 153, 153);
 
-    padding:10px;
+    font-size:18px;
+}
 
-    background:white;
-
-    border-radius:10px;
+.dictionaryRow td {
+    padding: 10px 20px;
+    border-bottom: 1px solid #000000;
+}
+.dictionaryRow:hover{
+    background:#b79bc6;
 }
 
 .addButton,
@@ -389,6 +431,8 @@ a{
     border-radius:8px;
 
     cursor:pointer;
+    padding-bottom: 1cap;
+    width: 10cm;
 }
 
 .addButton{
@@ -401,4 +445,15 @@ a{
 
     background:
         salmon;
+}
+
+.addButton:hover{
+    transform: scale(1.07); 
+    background: rgb(83, 247, 83);
+    
+}
+.removeButton:hover{
+    transform: scale(1.07); 
+    background:rgb(239, 76, 58);
+ 
 }

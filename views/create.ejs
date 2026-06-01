@@ -26,7 +26,7 @@
             <input class ="createSearchBar" id ="deckSearch" placeholder="Search deck">
             <div class = "deckCurrentCharacters">
                 <% deckChars.forEach(character=>{%>
-                    <div class ="characterRow">
+                    <div class ="createPageCharacterRow">
                         <p>
                             <%= character.chinese_character %> - <%=character.english%> -  <%=character.pronunciation%>
                         </p>
@@ -46,7 +46,7 @@
             <input class ="createSearchBar" id ="allSearch" placeholder="Search Characters">
             <div class = "deckNewCharacters">
                 <% allChars.forEach(character=>{%>
-                    <div class ="characterRow">
+                    <div class ="createPageCharacterRow">
                         <p>
                             <%= character.chinese_character %> - <%=character.english%> -  <%=character.pronunciation%>
                         </p>
@@ -129,7 +129,7 @@
         const input = document.getElementById(inputId);
         input.addEventListener("input",()=>{
             const search = input.value.toLowerCase();
-            const rows = document.querySelectorAll(`.${containerClass} .characterRow`);
+            const rows = document.querySelectorAll(`.${containerClass} .createPageCharacterRow`);
             rows.forEach(row=>{
                 const text = row.innerText.toLowerCase();
                 row.style.display = text.includes(search) ? "flex" : "none";
