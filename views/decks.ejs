@@ -20,40 +20,41 @@
             <li><a href="/decks">Decks</a></li>
         </ul>
     </nav>
+
+    
+   
+
+   
     
 
     <div class="deckContainer">
-        <div class="addDeck">
-            <form
-                action="/addDeck"
-                method="POST">
+         <form
+            class="addDeck"
+            action="/addDeck"
+            method="POST">
+            <h1>
+                Add New Deck
+            </h1>
 
-                <input
-                    type="text"
+            <input
+                type="text"
+                name="title"
+                placeholder="New deck title"
 
-                    name="title"
+                required>
 
-                    placeholder=
-                    "New deck title"
+            <button
+                type="submit">
 
-                    required>
-
-                <button
-                    type="submit">
-
-                    Create Deck
-
-                </button>
-
-            </form>
-
-        </div>
+                Create Deck
+            </button>
+        </form>
         <% decks.forEach(deck => { %>
             <div >
                 <a class = "editDeck" href="create/<%=deck.id%>">
                     edit
                 </a>
-                <form action="/deleteDeck/<%=deck.id %>" method = "post">
+                <form class ="deleteDeck" action="/deleteDeck/<%=deck.id %>" method = "post">
                     <button type="submit">
                         Delete
                     </button>

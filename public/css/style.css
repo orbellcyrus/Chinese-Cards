@@ -197,13 +197,68 @@ a{
 
 .deckCard:hover{
     background:rgb(205, 49, 49);
-
+    box-shadow: gray;
 }
 .addDeck{
-    font-size: 20px;
-    background-color: rgb(48, 58, 163);
-    display: flex;
+
+    display:flex;
     flex-direction: column;
+    
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    width:fit-content;
+
+    margin:110px auto;
+
+    padding:15px;
+
+    background:rgb(109, 138, 23);
+
+    border-radius:20px;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0,0,0,0.15);
+
+}
+
+.addDeck input{
+
+    font-size:18px;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    border:2px solid #000000;
+
+}
+
+.addDeck button{
+
+    font-size:18px;
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:steelblue;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+.addDeck button:hover{
+
+    background:rgb(50,100,180);
+
 }
 .editDeck{
     font-size: 200%;
