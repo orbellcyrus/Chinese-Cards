@@ -45,7 +45,6 @@
         </button>
     </form>
 
-    
 
     <div class="deckContainer">
          
@@ -65,17 +64,17 @@
                         <%= deck.title %>
                     </h2>
 
-                    <p>
+                    <p class="info"> 
                         Accuracy:
                         <%= deck.high_score %>/<%= deck.characters.length %>
                     </p>
 
-                    <p>
+                    <p class = "info">
                         Last Played:
                         <%= deck.last_played %>
                     </p>
-                    <p>
-                        <%= deck.characters.join(" ") %>
+                    <p class = "contents">
+                        <%= deck.characters.map( c =>`${c.chinese}-${c.english}`).join(", ") %>
                     </p>
 
                 </a>
@@ -96,9 +95,10 @@
 
         card.addEventListener( "mouseenter",
             ()=>{
-
                 title.innerText = "Study";
+                
             }
+
         );
         card.addEventListener( "mouseleave",
             ()=>{

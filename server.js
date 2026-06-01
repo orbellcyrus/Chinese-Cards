@@ -103,7 +103,7 @@ app.get("/account",requireLogin, (req, res) => {
 
 app.get("/decks",requireLogin,(req,res)=>{
     let sql = `
-    SELECT Decks.id AS deck_id, Decks.title, Decks.high_score, Decks.last_played,   CharacterDictionary.chinese_character  FROM Decks
+    SELECT Decks.id AS deck_id, Decks.title, Decks.high_score, Decks.last_played, CharacterDictionary.chinese_character,CharacterDictionary.english  FROM Decks
 
     LEFT JOIN DeckCharacters ON Decks.id = DeckCharacters.deck_id
 
@@ -129,7 +129,7 @@ app.get("/decks",requireLogin,(req,res)=>{
                         };
                     }
                     if(row.chinese_character){
-                        decksMap[row.deck_id].characters.push(row.chinese_character);
+                        decksMap[row.deck_id].characters.push({chinese:row.chinese_character,english:row.english});
                     }
                 }
             );

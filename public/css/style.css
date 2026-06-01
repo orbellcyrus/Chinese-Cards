@@ -184,14 +184,15 @@ a{
 
 
 .deckCard{
-
+     
     padding:20px;
+    padding-bottom: 0%;
 
     background:rgb(49, 205, 205);
 
     border-radius:15px;
 
-    border:0px solid #e3fffe;
+    border:1px solid #e3fffe;
 
     text-decoration:none;
 
@@ -200,13 +201,14 @@ a{
     display:flex;
 
     flex-direction:column;
-
-    gap:10px;
+    justify-content:center;
+    
 }
 
 .deckCard:hover{
-    background:rgb(205, 49, 49);
-    box-shadow: gray;
+     background:rgb(100, 205, 205);
+    transform: scale(1.01); 
+    
 }
 .addDeck{
 
@@ -297,6 +299,8 @@ a{
     transform: scale(1.1); 
     background-color:rgb(187, 49, 49);
 }
+
+
 
 
 .pageLayout{
