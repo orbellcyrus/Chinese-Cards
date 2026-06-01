@@ -50,12 +50,12 @@
     <div class="deckContainer">
          
         <% decks.forEach(deck => { %>
-            <div >
+            <div class = "deckAndButtons">
                 <a class = "editDeck" href="create/<%=deck.id%>">
-                    edit
+                    Edit
                 </a>
-                <form class ="deleteDeck" action="/deleteDeck/<%=deck.id %>" method = "post">
-                    <button type="submit">
+                <form action="/deleteDeck/<%=deck.id %>" method = "post">
+                    <button class ="deleteDeck" type="submit">
                         Delete
                     </button>
                 </form>

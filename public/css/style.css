@@ -172,6 +172,15 @@ a{
 
     margin-top:40px;
 }
+.deckAndButtons{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    background-color: #41716d;
+    border-radius: 15px;
+    padding: 10px;
+    
+}
 
 
 .deckCard{
@@ -261,19 +270,32 @@ a{
 }
 .editDeck{
     font-size: 200%;
-    display: flex;
-    justify-content: center;
+    width:100%;
+    text-align:center;
+    
     background-color: rgb(49, 205, 49);
     border-radius:15px ;
     margin-bottom: 5%;
+    box-sizing:border-box;
     
 }
 .editDeck:hover{
-    transform: scale(1.1); 
+    transform: scale(1.07); 
     background-color:rgb(49, 187, 49);
 }
 .deleteDeck{
-    
+
+    font-size: 200%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(205, 49, 49);
+    border-radius:15px ;
+    margin-bottom: 5%;
+
+}
+.deleteDeck:hover{
+    transform: scale(1.1); 
+    background-color:rgb(187, 49, 49);
 }
 
 
