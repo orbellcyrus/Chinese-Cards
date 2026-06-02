@@ -38,10 +38,13 @@
             </p>
 
             <button id="restartGame">
-                Restart
+                Replay Entire Deck
             </button>
             <button id ="exitGame">
                 Back to Decks
+            </button>
+            <button id ="restartWithoutCorrects">
+                Replay With Wrong Answers
             </button>
         </div>
 
@@ -97,6 +100,7 @@
     const indexDisplay = document.getElementById("indexDisplay");
     const exitGame = document.getElementById("exitGame");
     const restartGame = document.getElementById("restartGame");
+    const restartWithoutCorrects = document.getElementById("restartWithoutCorrects");
     const popup = document.getElementById( "endPopup");
     const finalScore = document.getElementById("finalScore");
 
@@ -130,17 +134,11 @@
                 }
                 if(event.key ==="ArrowUp"){
                     event.preventDefault();
-                    corrects++;
-                    resultsArray[index]= 1;
-                    index++;
-                    updateText();
+                    rightFunc();
                 }
                 if(event.key === "ArrowDown"){
                     event.preventDefault();
-                    wrongs++;
-                    resultsArray[index]= 0;
-                    index++;
-                    updateText();
+                    wrongFunc();
                 }
             }
         }
@@ -160,19 +158,13 @@
     correct.addEventListener(
         "click",
         ()=>{
-            corrects++;
-            index++;
-            resultsArray[index]= 1;
-            updateText();
+            rightFunc();
         }
     );
     wrong.addEventListener(
         "click",
-        ()=>{
-            wrongs++;
-            resultsArray[index]= 0;
-            index++;
-            updateText(); 
+        ()=>{ 
+            wrongFunc();
         }
     );
 
@@ -181,7 +173,14 @@
             "/decks";
     });
 
+
     restartGame.addEventListener("click",()=>{
+        endPopup.style.display = "none";
+        resultsArray= Array(length).fill(0);
+        start();
+    });
+
+    restartWithoutCorrects.addEventListener("click",()=>{
         endPopup.style.display = "none";
         start();
     });
@@ -214,12 +213,18 @@
         index = 0 ; 
         side = 0 ; 
         updateText();
-        console.log(resultsArray);
+        
     }
     
     function showPopup(){
-        finalScore.innerText = `Score: ${corrects}`;
-
+        if( length == resultsArray.reduce((accumulator,currentValue) => accumulator + currentValue,0)){
+                restartWithoutCorrects.style.display="none";
+                finalScore.innerText = `Score: ${corrects} / ${length} 100%!`;
+        }else{
+            finalScore.innerText = `Score: ${corrects}/${length}`;
+            restartWithoutCorrects.style.display="block";
+        }
+        
         popup.style.display = "flex";
     }
 
@@ -235,13 +240,10 @@
                 card.innerText = characters[index].pronunciation;
                 break;
         }
-
     }
     
     function updateText(){
-        while(resultsArray[index]){
-            index++
-        }
+        while(resultsArray[index]) index++;
         correctDisplay.innerText = `correct: ${corrects}`;
         wrongDisplay.innerText = `incorrect: ${wrongs}`; 
         if(index<length){
@@ -253,6 +255,22 @@
             saveScore();
         }
       
+    }
+    
+
+    function wrongFunc(){
+        resultsArray[index] = 0;
+        wrongs++;
+        index++;
+        console.log(resultsArray);
+        updateText();        
+    }
+     function rightFunc(){
+        resultsArray[index] = 1;
+        corrects++;
+        index++;
+        console.log(resultsArray);
+        updateText();        
     }
 
 
