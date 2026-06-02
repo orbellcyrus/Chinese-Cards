@@ -26,61 +26,61 @@
         <h1>Characters</h1> 
         <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
         <table class = "dictionaryTable">
-            <thead>
-                <tr>
-                    <th>Character / 汉子</th>
-                    <th>English</th>
-                    <th>Pronunciation / 拼音</th>
-                    <th>Known</th>
+            
+            <tr>
+                <th>Character / 汉子</th>
+                <th>English</th>
+                <th>Pronunciation / 拼音</th>
+                <th>Known</th>
+            </tr>
+            
+        
+            <% characters.forEach(character =>{ %>
+                <tr class = "dictionaryRow">
+                    <td>
+                        <%= character.chinese_character %>
+                    </td>
+
+                    <td>
+                        <%= character.english %>
+                    </td>
+
+                    <td>
+                        <%= character.pronunciation %>
+                    </td>
+
+                    <td>
+                        <% if(character.known){ %>
+                            <form
+                                action="/unlearnCharacter"
+                                method="POST">
+                                <input
+                                    type="hidden"
+                                    name="characterId"
+                                    value="<%= character.id %>">
+                                <button class="learnButton">
+                                    ✅ Click To Unlearn
+                                </button>
+                            </form>
+                        <% } else { %>
+                            <form
+                                action="/learnCharacter"
+                                method="POST">
+
+                                <input
+                                    type="hidden"
+                                    name="characterId"
+                                    value="<%= character.id %>">
+                                <button class="unlearnButton">
+                                    ❌ Click To Learn
+                                </button>
+                            </form>
+                        <% } %>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <% characters.forEach(character =>{ %>
-                    <tr class = "dictionaryRow">
-                        <td>
-                            <%= character.chinese_character %>
-                        </td>
-
-                        <td>
-                            <%= character.english %>
-                        </td>
-
-                        <td>
-                            <%= character.pronunciation %>
-                        </td>
-
-                        <td>
-                            <% if(character.known){ %>
-                                <form
-                                    action="/unlearnCharacter"
-                                    method="POST">
-                                    <input
-                                        type="hidden"
-                                        name="characterId"
-                                        value="<%= character.id %>">
-                                    <button class="learnButton">
-                                       ✅ Click To Unlearn
-                                    </button>
-                                </form>
-                            <% } else { %>
-                                <form
-                                    action="/learnCharacter"
-                                    method="POST">
-
-                                    <input
-                                        type="hidden"
-                                        name="characterId"
-                                        value="<%= character.id %>">
-                                    <button class="unlearnButton">
-                                        ❌ Click To Learn
-                                    </button>
-                                </form>
-                            <% } %>
-                        </td>
-                    </tr>
-                <% }) %>
+            <% }) %>
                 
-            </tbody>
+           
             
 
         </table>
@@ -95,7 +95,7 @@
     const searchBar = document.getElementById("searchBar");
     searchBar.addEventListener("input",()=>{
         const search = searchBar.value.toLowerCase();
-        const rows = document.querySelectorAll(".characterRow");
+        const rows = document.querySelectorAll(".dictionaryRow");
         rows.forEach(row=>{
             const text = row.innerText.toLowerCase();
             if(text.includes(search)){

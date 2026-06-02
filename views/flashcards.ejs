@@ -71,13 +71,13 @@
                  
             </button>
 
-            <div class = "wrongRight">
+            <div class = "wrongCorrect">
                 <button class = "wrong" id ="wrong">
                     wrong
                 </button>
 
-                <button class = "right" id ="right">
-                    right
+                <button class = "correct" id ="correct">
+                    correct
                 </button>
             </div>
             
@@ -89,7 +89,7 @@
 </html>
 <script>
     const card = document.getElementById("card");
-    const right = document.getElementById("right");
+    const correct = document.getElementById("correct");
     const wrong = document.getElementById("wrong");
     const correctDisplay = document.getElementById("correctDisplay");
     const wrongDisplay = document.getElementById("wrongDisplay");
@@ -106,14 +106,13 @@
     //console.log(deck,characters);
     let playing = true;
     let wrongs = 0;
-    let rights = 0;
+    let corrects = 0;
     let index = 0;
     let side = 0;
     let length = characters.length;
+    let resultsArray= Array(length).fill(0);
 
     start();
-
-
     document.addEventListener(
         "keydown",
         (event)=>{
@@ -130,13 +129,15 @@
                 }
                 if(event.key ==="ArrowUp"){
                     event.preventDefault();
-                    rights++;
+                    corrects++;
+                    resultsArray[index]= 1;
                     index++;
                     updateText();
                 }
                 if(event.key === "ArrowDown"){
                     event.preventDefault();
                     wrongs++;
+                    resultsArray[index]= 0;
                     index++;
                     updateText();
                 }
@@ -155,11 +156,12 @@
         }
     )
 
-    right.addEventListener(
+    correct.addEventListener(
         "click",
         ()=>{
-            rights++;
+            corrects++;
             index++;
+            resultsArray[index]= 1;
             updateText();
         }
     );
@@ -167,6 +169,7 @@
         "click",
         ()=>{
             wrongs++;
+            resultsArray[index]= 0;
             index++;
             updateText(); 
         }
@@ -195,7 +198,7 @@
                 },
                 body:JSON.stringify({
                     deck_id:deck.id,
-                    score: rights
+                    score: corrects
                 })
 
             }
@@ -206,14 +209,15 @@
     function start(){
         side = 0;
         wrongs = 0;
-        rights = 0;
+        corrects = 0;
         index = 0 ; 
         side = 0 ; 
         updateText();
+        console.log(resultsArray);
     }
     
     function showPopup(){
-        finalScore.innerText = `Score: ${rights}`;
+        finalScore.innerText = `Score: ${corrects}`;
 
         popup.style.display = "flex";
     }
@@ -234,14 +238,16 @@
     }
     
     function updateText(){
-        correctDisplay.innerText = `correct: ${rights}`;
+        while(resultsArray[index]){
+            index++
+        }
+        correctDisplay.innerText = `correct: ${corrects}`;
         wrongDisplay.innerText = `incorrect: ${wrongs}`; 
         if(index<length){
             indexDisplay.innerText = `${index +1 }/${length}`;
             side=0;
             card.innerText = characters[index].chinese_character;
         }else{
-            playing = false;
             showPopup();
             saveScore();
         }

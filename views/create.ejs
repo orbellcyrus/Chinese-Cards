@@ -47,12 +47,13 @@
             <div class = "deckNewCharacters">
                 <% allChars.forEach(character=>{%>
                     <div class ="createPageCharacterRow">
-                        <p>
-                            <%= character.chinese_character %> - <%=character.english%> -  <%=character.pronunciation%>
-                        </p>
                         <button class = "addButton" data-character-id = "<%=character.id%>">
                             Add
                         </button>
+                        <p>
+                            <%= character.chinese_character %> - <%=character.english%> -  <%=character.pronunciation%>
+                        </p>
+                       
 
                     </div>
                 <% }) %>
