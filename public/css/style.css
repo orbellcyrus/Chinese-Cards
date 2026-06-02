@@ -81,10 +81,10 @@ a{
     
 }
 .unlearnButton{
-    background-color:firebrick;
+    background-color:rgb(255, 191, 191);
 }
 .unlearnButton:hover{
-    background-color:firebrick;
+    background-color:rgb(249, 181, 181);
     transform: scale(1.01);
 }
 
