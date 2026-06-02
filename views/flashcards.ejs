@@ -117,7 +117,7 @@
     let length = characters.length;
     let resultsArray= Array(length).fill(0);
 
-    start();
+    start(0);
     document.addEventListener(
         "keydown",
         (event)=>{
@@ -177,12 +177,12 @@
     restartGame.addEventListener("click",()=>{
         endPopup.style.display = "none";
         resultsArray= Array(length).fill(0);
-        start();
+        start(0);
     });
 
     restartWithoutCorrects.addEventListener("click",()=>{
         endPopup.style.display = "none";
-        start();
+        start(resultsArray.reduce((accumulator,currentValue) => accumulator + currentValue,0));
     });
 
 
@@ -206,10 +206,10 @@
 
     }
     
-    function start(){
+    function start(score){
         side = 0;
         wrongs = 0;
-        corrects = 0;
+        corrects = score;
         index = 0 ; 
         side = 0 ; 
         updateText();
