@@ -72,6 +72,21 @@ a{
     border:2px solid #ccc;
 }
 
+.learnButton{
+    background-color:aquamarine;
+}
+.learnButton:hover{
+    background-color:aquamarine;
+    transform: scale(1.01);
+    
+}
+.unlearnButton{
+    background-color:firebrick;
+}
+.unlearnButton:hover{
+    background-color:firebrick;
+    transform: scale(1.01);
+}
 
 .flashCardBody{
     display:flex;
@@ -192,7 +207,7 @@ a{
     display: flex;
     flex-direction: column;
     align-items:center;
-    background-color: #41716d;
+    background-color: rgb(226, 205, 203);
     border-radius: 15px;
     padding: 10px;
     
@@ -289,22 +304,16 @@ a{
     font-size: 200%;
     width:100%;
     text-align:center;
-    
-    background-color: rgb(49, 205, 49);
+    background-color: rgb(68, 172, 68);
     border-radius:15px ;
     margin-bottom: 5%;
-    box-sizing:border-box;
-    
 }
 .editDeck:hover{
     transform: scale(1.07); 
     background-color:rgb(49, 187, 49);
 }
 .deleteDeck{
-
     font-size: 200%;
-    display: flex;
-    justify-content: center;
     background-color: rgb(205, 49, 49);
     border-radius:15px ;
     margin-bottom: 5%;
@@ -312,7 +321,7 @@ a{
 }
 .deleteDeck:hover{
     transform: scale(1.1); 
-    background-color:rgb(187, 49, 49);
+    background-color:rgb(223, 49, 49);
 }
 
 
@@ -372,7 +381,6 @@ a{
 }
 .createPageCharacterRow:hover{
     background-color: rgb(207, 210, 194);
-    font-size: x-large;
     font-weight: bold;
 
 }
@@ -438,13 +446,11 @@ a{
 }
 
 .addButton{
-
     background:
         lightgreen;
 }
 
 .removeButton{
-
     background:
         salmon;
 }

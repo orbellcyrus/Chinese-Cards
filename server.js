@@ -33,13 +33,11 @@ app.get("/dictionary",requireLogin,(req,res)=>{
     let sql = `
     SELECT
         CharacterDictionary.*,
-
         CASE
             WHEN UsersLearned.user_id IS NULL
             THEN 0
             ELSE 1
         END AS known
-
     FROM CharacterDictionary
 
     LEFT JOIN UsersLearned
@@ -49,30 +47,16 @@ app.get("/dictionary",requireLogin,(req,res)=>{
 
     AND UsersLearned.user_id = ?
     `;
-    let deck_sql ="SELECT * FROM Decks WHERE user_id = ?"
-
     db.query(
         sql,
         [req.session.userId],
-        (err,results1)=>{
-
-            if(err) throw err;
-
-            db.query(deck_sql,
-                [req.session.userId],
-                (err,results2)=>{
-                    if(err) throw err;
-                     res.render(
-                        "dictionary",
-                        {characters:results1,
-                            decks:results2
-                        }
-            );
-                }
-            );
+        (err,results)=>{
+            res.render(
+                "dictionary",
+                {characters:results}
+            )
         }
     );
-
 });
 
 app.get("/account",requireLogin, (req, res) => {
