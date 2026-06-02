@@ -90,15 +90,24 @@ a{
 
 .flashCardBody{
     display:flex;
+    flex-direction: column;
 
     justify-content:center;
 
     align-items:center;
 
-    height:100vh;
+    height:90vh;
+}
+.flashCardTitle{
+    font-size: 40px;
+    padding: 2px;
+    background-color:rgb(114, 168, 123) ;
+    width:400px;
+    border-radius: 100%;
+    display:flex;
+    justify-content: center;
 
 }
-
 .flashCardsInterface{
 
     width:700px;
@@ -112,9 +121,9 @@ a{
 
     padding:10px;
 
-  
 
 }
+
 
 .gameInfo{
 
@@ -135,7 +144,7 @@ a{
 
     font-size:35px;
 
-    background:#ff3131;
+    background:#f4f0ff;
 }
 
 .wrongCorrect{
