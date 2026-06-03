@@ -74,95 +74,66 @@
 
 <script>
 
-    document.querySelectorAll(".addButton").forEach(button=>{
-        button.addEventListener(
-            "click",
-            ()=>{
-                const characterId = button.dataset.characterId;
-                const row = button.closest(".createPageCharacterRow");
-                addChar(characterId,row);
-            }
-        );
-    });
-    
-    function addChar(characterId, row){
-        fetch("/addCharacterToDeck",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                deckId:<%= deck.id %>,
-                characterId
-            })
+    function addChar(characterId, row) {
+        fetch("/addCharacterToDeck", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ deckId: <%= deck.id %>, characterId })
         })
-        .then(()=>{
+        .then(() => {
+            const clone = row.cloneNode(true);
 
-            const deckContainer =
-                document.querySelector(
-                    ".deckCurrentCharacters"
-                );
+            // Swap the button class and text
+            const btn = clone.querySelector("button");
+            btn.className = "removeButton";
+            btn.textContent = "Remove";
 
-            const clone =
-                row.cloneNode(true);
+            // Attach the new listener
+            btn.addEventListener("click", () => {
+                removeChar(characterId, clone);
+            });
 
-            deckContainer.appendChild(
-                clone
-            );
-
+            document.querySelector(".deckCurrentCharacters").appendChild(clone);
             row.remove();
-
         });
-
     }
 
-
-
-    document
-    .querySelectorAll(".removeButton")
-    .forEach(button=>{
-
-        button.addEventListener(
-            "click",
-            ()=>{
-
-                const characterId =
-                    button.dataset.characterId;
-
-                const row =
-                    button.closest(
-                        ".createPageCharacterRow"
-                    );
-
-                removeChar(
-                    characterId,
-                    row
-                );
-
-            }
-        );
-
-    });
-    
-    function removeChar(characterId, row){
-
-        fetch("/removeCharacterFromDeck",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                deckId:<%= deck.id %>,
-                characterId
-            })
+    function removeChar(characterId, row) {
+        fetch("/removeCharacterFromDeck", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ deckId: <%= deck.id %>, characterId })
         })
-        .then(()=>{
+        .then(() => {
+            const clone = row.cloneNode(true);
 
+            // Swap the button class and text
+            const btn = clone.querySelector("button");
+            btn.className = "addButton";
+            btn.textContent = "Add";
+
+            // Attach the new listener
+            btn.addEventListener("click", () => {
+                addChar(characterId, clone);
+            });
+
+            document.querySelector(".deckNewCharacters").appendChild(clone);
             row.remove();
-
         });
-
     }
+
+    // Initial listeners for server-rendered buttons
+    document.querySelectorAll(".addButton").forEach(button => {
+        button.addEventListener("click", () => {
+            addChar(button.dataset.characterId, button.closest(".createPageCharacterRow"));
+        });
+    });
+
+    document.querySelectorAll(".removeButton").forEach(button => {
+        button.addEventListener("click", () => {
+            removeChar(button.dataset.characterId, button.closest(".createPageCharacterRow"));
+        });
+    });
 
 
 
