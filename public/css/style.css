@@ -72,21 +72,16 @@ a{
     border:2px solid #ccc;
 }
 
-.learnButton{
-    background-color:aquamarine;
+.toggleLearnButton{
+    background-color:rgb(225, 225, 225);
+    min-width: 150px;
 }
-.learnButton:hover{
-    background-color:aquamarine;
+.toggleLearnButton:hover{
+    background-color:rgb(152, 161, 127);
     transform: scale(1.01);
     
 }
-.unlearnButton{
-    background-color:rgb(255, 191, 191);
-}
-.unlearnButton:hover{
-    background-color:rgb(249, 181, 181);
-    transform: scale(1.01);
-}
+
 
 .flashCardBody{
     display:flex;

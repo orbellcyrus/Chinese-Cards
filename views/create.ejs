@@ -79,52 +79,93 @@
             "click",
             ()=>{
                 const characterId = button.dataset.characterId;
-                addChar(characterId);
+                const row = button.closest(".createPageCharacterRow");
+                addChar(characterId,row);
             }
         );
     });
     
-    function addChar(characterId){
+    function addChar(characterId, row){
         fetch("/addCharacterToDeck",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body:JSON.stringify({
-                deckId: <%=deck.id%>,
-                characterId: characterId
+                deckId:<%= deck.id %>,
+                characterId
             })
-        }
-        ).then(()=>{
-            location.reload();
-        });
-    }     
+        })
+        .then(()=>{
 
-    document.querySelectorAll(".removeButton").forEach(button=>{
+            const deckContainer =
+                document.querySelector(
+                    ".deckCurrentCharacters"
+                );
+
+            const clone =
+                row.cloneNode(true);
+
+            deckContainer.appendChild(
+                clone
+            );
+
+            row.remove();
+
+        });
+
+    }
+
+
+
+    document
+    .querySelectorAll(".removeButton")
+    .forEach(button=>{
+
         button.addEventListener(
             "click",
             ()=>{
-                const characterId = button.dataset.characterId;
-                removeChar(characterId);
+
+                const characterId =
+                    button.dataset.characterId;
+
+                const row =
+                    button.closest(
+                        ".createPageCharacterRow"
+                    );
+
+                removeChar(
+                    characterId,
+                    row
+                );
+
             }
         );
+
     });
     
-    function removeChar(characterId){
+    function removeChar(characterId, row){
+
         fetch("/removeCharacterFromDeck",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body:JSON.stringify({
-                deckId: <%=deck.id%>,
-                characterId: characterId
+                deckId:<%= deck.id %>,
+                characterId
             })
-        }
-        ).then(()=>{
-            location.reload();
+        })
+        .then(()=>{
+
+            row.remove();
+
         });
-    } 
+
+    }
+
+
+
 
     function setupSearch(inputId, containerClass){
         const input = document.getElementById(inputId);

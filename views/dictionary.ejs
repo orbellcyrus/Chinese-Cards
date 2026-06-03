@@ -52,30 +52,23 @@
 
                     <td>
                         <% if(character.known){ %>
-                            <form
-                                action="/unlearnCharacter"
-                                method="POST">
-                                <input
-                                    type="hidden"
-                                    name="characterId"
-                                    value="<%= character.id %>">
-                                <button class="learnButton">
-                                    ✅ Click To Unlearn
-                                </button>
-                            </form>
+                            
+                            <button class="toggleLearnButton"
+                                    data-character-id = "<%= character.id %>"
+                                    data-known = "true"
+                            >
+                                ✅ Click To Unlearn
+                            </button>
+                           
                         <% } else { %>
-                            <form
-                                action="/learnCharacter"
-                                method="POST">
-
-                                <input
-                                    type="hidden"
-                                    name="characterId"
-                                    value="<%= character.id %>">
-                                <button class="unlearnButton">
-                                    ❌ Click To Learn
-                                </button>
-                            </form>
+                            
+                            <button class="toggleLearnButton"
+                                    data-character-id = "<%= character.id %>"
+                                    data-known = "false"
+                            >
+                                ❌ Click To Learn
+                            </button>
+                            
                         <% } %>
                     </td>
                     <td>
@@ -94,6 +87,33 @@
 
 </body>
 <script>
+    document.querySelectorAll(".toggleLearnButton").forEach(button => {
+        button.addEventListener("click",()=>{
+            const characterId=button.dataset.characterId;
+            const known = button.dataset.known === "true"
+
+            fetch(known?"/unlearnCharacter":"/learnCharacter",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    characterId
+                })
+            }).then(()=>{
+                if(known){
+                    button.innerText = "❌ Click To Learn";
+                    button.dataset.known = "false";
+
+                }else{
+                    button.innerText = "✅ Click To Unlearn";
+                    button.dataset.known = "true"
+
+
+                }
+            })
+        })
+    })
     
 
     const searchBar = document.getElementById("searchBar");

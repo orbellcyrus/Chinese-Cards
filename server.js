@@ -368,7 +368,7 @@ app.post("/learnCharacter", requireLogin,(req,res)=>{
         (err,result)=>{
             if(err) throw err;
             console.log("Connection added");
-            res.redirect("dictionary")
+            res.sendStatus(200);
     }
     );
 });
@@ -397,7 +397,7 @@ app.post("/unlearnCharacter",requireLogin,(req,res)=>{
 
             if(err) throw err;
 
-            res.redirect("/dictionary");
+            res.sendStatus(200);
 
         }
 
