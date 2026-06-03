@@ -24,6 +24,9 @@
     <div class = "dictionaryPage">
         
         <h1>Characters</h1> 
+        <% for(let i = 0; i <50; i++){%>
+            <a href = "dictionary/<%=i%>>"><%=i+1></a>
+        <%}%>
         <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
         <table class = "dictionaryTable">
             
@@ -87,6 +90,7 @@
 
 </body>
 <script>
+    
     document.querySelectorAll(".toggleLearnButton").forEach(button => {
         button.addEventListener("click",()=>{
             const characterId=button.dataset.characterId;
