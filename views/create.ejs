@@ -74,69 +74,57 @@
 
 <script>
 
-    function addChar(characterId, row) {
-        fetch("/addCharacterToDeck", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ deckId: <%= deck.id %>, characterId })
-        })
-        .then(() => {
-            const clone = row.cloneNode(true);
-
-            // Swap the button class and text
-            const btn = clone.querySelector("button");
-            btn.className = "removeButton";
-            btn.textContent = "Remove";
-
-            // Attach the new listener
-            btn.addEventListener("click", () => {
-                removeChar(characterId, clone);
-            });
-
-            document.querySelector(".deckCurrentCharacters").appendChild(clone);
-            row.remove();
-        });
-    }
-
-    function removeChar(characterId, row) {
-        fetch("/removeCharacterFromDeck", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ deckId: <%= deck.id %>, characterId })
-        })
-        .then(() => {
-            const clone = row.cloneNode(true);
-
-            // Swap the button class and text
-            const btn = clone.querySelector("button");
-            btn.className = "addButton";
-            btn.textContent = "Add";
-
-            // Attach the new listener
-            btn.addEventListener("click", () => {
-                addChar(characterId, clone);
-            });
-
-            document.querySelector(".deckNewCharacters").appendChild(clone);
-            row.remove();
-        });
-    }
-
-    // Initial listeners for server-rendered buttons
-    document.querySelectorAll(".addButton").forEach(button => {
-        button.addEventListener("click", () => {
-            addChar(button.dataset.characterId, button.closest(".createPageCharacterRow"));
-        });
+    document.querySelectorAll(".addButton").forEach(button=>{
+        button.addEventListener(
+            "click",
+            ()=>{
+                const characterId = button.dataset.characterId;
+                addChar(characterId);
+            }
+        );
     });
-
-    document.querySelectorAll(".removeButton").forEach(button => {
-        button.addEventListener("click", () => {
-            removeChar(button.dataset.characterId, button.closest(".createPageCharacterRow"));
+    
+    function addChar(characterId){
+        fetch("/addCharacterToDeck",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                deckId: <%=deck.id%>,
+                characterId: characterId
+            })
+        }
+        ).then(()=>{
+            location.reload();
         });
+    }     
+
+    document.querySelectorAll(".removeButton").forEach(button=>{
+        button.addEventListener(
+            "click",
+            ()=>{
+                const characterId = button.dataset.characterId;
+                removeChar(characterId);
+            }
+        );
     });
-
-
-
+    
+    function removeChar(characterId){
+        fetch("/removeCharacterFromDeck",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                deckId: <%=deck.id%>,
+                characterId: characterId
+            })
+        }
+        ).then(()=>{
+            location.reload();
+        });
+    } 
 
     function setupSearch(inputId, containerClass){
         const input = document.getElementById(inputId);
