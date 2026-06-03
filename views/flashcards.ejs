@@ -198,13 +198,16 @@
                 },
                 body:JSON.stringify({
                     deck_id:deck.id,
-                    score: corrects
+                    score: corrects,
                 })
 
             }
         );
 
     }
+  
+       
+    
     
     function start(score){
         side = 0;
@@ -266,6 +269,16 @@
         updateText();        
     }
      function rightFunc(){
+        fetch("/saveCharacterRights",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                characterId: characters[index].id
+            })
+        }); 
+    
         resultsArray[index] = 1;
         corrects++;
         index++;

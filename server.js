@@ -33,19 +33,24 @@ app.get("/dictionary",requireLogin,(req,res)=>{
     let sql = `
     SELECT
         CharacterDictionary.*,
-        CASE
-            WHEN UsersLearned.user_id IS NULL
-            THEN 0
-            ELSE 1
-        END AS known
+        COALESCE(
+            UsersLearned.learned,
+            FALSE
+        ) AS known,
+
+        COALESCE(
+            UsersLearned.correct,
+            0
+        ) AS correct
+
     FROM CharacterDictionary
 
     LEFT JOIN UsersLearned
 
     ON CharacterDictionary.id =
-       UsersLearned.character_id
+    UsersLearned.character_id
 
-    AND UsersLearned.user_id = ?
+    AND UsersLearned.user_id = ?;
     `;
     db.query(
         sql,
@@ -340,18 +345,32 @@ app.post("/logout",requireLogin,(req,res)=>{
 app.post("/learnCharacter", requireLogin,(req,res)=>{
     const userID = req.session.userId;
     const charID = req.body.characterId;
-    let sql = "INSERT INTO UsersLearned(user_id , character_id) VALUES (?, ?)";
+    let sql = `
+            INSERT INTO UsersLearned
+            (
+                user_id,
+                character_id,
+                learned
+            )
+
+            VALUES
+            (
+                ?, ?, TRUE
+            )
+
+            ON DUPLICATE KEY UPDATE
+
+            learned = TRUE
+            `;
     db.query(
         sql,
         [userID,charID],
         (err,result)=>{
-
             if(err) throw err;
-
             console.log("Connection added");
-            res.redirect("dictionary");
+            res.redirect("dictionary")
     }
-    )
+    );
 });
 
 
@@ -365,7 +384,9 @@ app.post("/unlearnCharacter",requireLogin,(req,res)=>{
 
     db.query(
         `
-        DELETE FROM UsersLearned
+        UPDATE UsersLearned
+
+        SET  learned = FALSE
 
         WHERE user_id = ?
         AND character_id = ?
@@ -430,10 +451,8 @@ app.post("/removeCharacterFromDeck",requireLogin, (req,res)=>{
 });
 
 app.post("/setDeckScore", requireLogin, (req,res)=>{
-    const score =
-        req.body.score
-    const deck =
-        req.body.deck_id
+    const score = req.body.score;
+    const deck = req.body.deck_id;
     sql = `UPDATE Decks 
             SET 
                 high_score = ?,
@@ -444,10 +463,41 @@ app.post("/setDeckScore", requireLogin, (req,res)=>{
         [score,deck],
         (err)=>{
             if(err) throw err;
-            res.redirect("/decks")
+            res.redirect("/decks");
         }
     );
+
 });
+
+app.post("/saveCharacterRights",(req,res)=>{
+    const characterId = req.body.characterId;
+    const userId = req.session.userId;
+    let sql = `
+            INSERT INTO UsersLearned
+            (
+                user_id,
+                character_id,
+                correct
+            )
+            VALUES
+            (
+                ?, ?, 1
+            )
+
+            ON DUPLICATE KEY UPDATE
+
+            correct = correct + 1
+            `;
+    db.query(
+        sql,
+        [userId,characterId],
+        (err)=>{
+            if(err) throw err;
+            
+        }
+    )
+    
+})
 
 app.post("/deleteDeck/:id",(req,res)=>{
     sql = 'DELETE FROM Decks WHERE id =? and user_id =?';
