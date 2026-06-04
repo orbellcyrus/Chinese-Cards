@@ -24,9 +24,22 @@
     <div class = "dictionaryPage">
         
         <h1>Characters</h1> 
-        <% for(let i = 0; i <50; i++){%>
-            <a href = "dictionary/<%=i%>>"><%=i+1></a>
-        <%}%>
+        
+        <div class="dictionaryPages"
+        <a href = "<%=pageNumber-1%>"> ⬅️ </a>
+            <%if( pageNumber<90 ){%>
+                
+
+                <% for(let i = pageNumber; i < pageNumber+10; i++){%>
+                    <a href = "<%=i%>" > <%=i%>| </a>
+                <%}%>
+            <%}else{%>
+                <% for(let i = 91; i < 100; i++){%>
+                    <a href = "<%=i%>" > <%=i%>| </a>
+                <%}%>  
+            <%}%>
+        </div>
+        
         <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
         <table class = "dictionaryTable">
             

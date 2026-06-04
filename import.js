@@ -11,12 +11,12 @@ const db =
 mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"",
+    password:"Howdididoit6789",
     database:"chinese"
 });
 
 fs.createReadStream(
-    "csv/hsk1.csv"
+    "csv/hskall.csv"
 )
 .pipe(
     csv()

@@ -55,6 +55,11 @@ a{
     font-size: 150%;
 
 }
+.dictionaryPages{
+    display: flex;
+    flex-direction: row;
+    
+}
 
 
 .dictionarySearchBar{

@@ -54,6 +54,7 @@ app.get("/dictionary/:page",requireLogin,(req,res)=>{
     LIMIT 50 OFFSET ?;
     
     `;
+    const pageNumber = Number(req.params.page);
     const offset = req.params.page * 50;
     db.query(
         sql,
@@ -61,48 +62,17 @@ app.get("/dictionary/:page",requireLogin,(req,res)=>{
         (err,results)=>{
             res.render(
                 "dictionary",
-                {characters:results}
+                {
+                    characters:results,
+                    pageNumber: pageNumber
+                    
+                }
             )
         }
     );
 });
 
-app.get("/dictionary/",requireLogin,(req,res)=>{
-    let sql = `
-    SELECT
-        CharacterDictionary.*,
-        COALESCE(
-            UsersLearned.learned,
-            FALSE
-        ) AS known,
 
-        COALESCE(
-            UsersLearned.correct,
-            0
-        ) AS correct
-
-    FROM CharacterDictionary
-
-    LEFT JOIN UsersLearned
-
-    ON CharacterDictionary.id =
-    UsersLearned.character_id
-
-    AND UsersLearned.user_id = ?
-    LIMIT 50;
-    
-    `;
-    db.query(
-        sql,
-        [req.session.userId],
-        (err,results)=>{
-            res.render(
-                "dictionary",
-                {characters:results}
-            )
-        }
-    );
-});
 
 app.get("/account",requireLogin, (req, res) => {
     let sql = "SELECT * FROM Users WHERE id = ?" ;
