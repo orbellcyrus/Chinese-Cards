@@ -25,30 +25,41 @@
         
         <h1>Characters</h1> 
         
-        <div class="dictionaryPages"
-        <a href = "<%=pageNumber-1%>"> ⬅️ </a>
-            <%if( pageNumber<90 ){%>
-                
+        <div class="dictionaryPages">
 
-                <% for(let i = pageNumber; i < pageNumber+10; i++){%>
-                    <a href = "<%=i%>" > <%=i%>| </a>
-                <%}%>
-            <%}else{%>
-                <% for(let i = 91; i < 100; i++){%>
-                    <a href = "<%=i%>" > <%=i%>| </a>
-                <%}%>  
-            <%}%>
+            
         </div>
         
         <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
         <table class = "dictionaryTable">
             
             <tr>
-                <th>Character / 汉子</th>
-                <th>English</th>
-                <th>Pronunciation / 拼音</th>
-                <th>Known</th>
-                <th>Times Correct In Flash Cards</th>
+                <th>
+                    <a href="?sort=chinese_character">
+                        Character / 汉子
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort=english">
+                        English
+                    </a>
+                </th>
+                <th>
+                    <a href ="?sort=pronunciation">
+                        Pronunciation / 拼音
+                    </a>
+                </th>
+                <th>
+                    <a href ="?sort=known">
+                        Known
+                    </a>
+                </th>
+          
+                <th>
+                    <a href ="?sort=correct">
+                         Times Correct In Flash Cards
+                    </a>
+                </th>
             </tr>
             
         

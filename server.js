@@ -29,33 +29,70 @@ app.get("/login", (req, res) => {
 });
 
 
-app.get("/dictionary/:page",requireLogin,(req,res)=>{
-    let sql = `
-    SELECT
-        CharacterDictionary.*,
-        COALESCE(
-            UsersLearned.learned,
-            FALSE
-        ) AS known,
+app.get("/dictionary",requireLogin,(req,res)=>{
+    const pageNumber = Number(req.query.page) || 1;
+    const limit = 100;
+    const offset = (pageNumber-1) * limit
 
-        COALESCE(
-            UsersLearned.correct,
-            0
-        ) AS correct
+    const search = req.query.search || "";
 
-    FROM CharacterDictionary
+    let sort = req.query.sort || "english";
 
-    LEFT JOIN UsersLearned
+    const allowedSorts =
+    [
+        "english",
+        "pronunciation",
+        "correct",
+        "known",
+        "chinese_character"
+    ];
 
-    ON CharacterDictionary.id =
-    UsersLearned.character_id
+    if(!allowedSorts.includes(sort)){
+        sort = "english";
+    }
+    const sortColumns = {
+        english: "CharacterDictionary.english",
+        pronunciation: "CharacterDictionary.pronunciation",
+        correct: "correct",
+        known: "known",
+        chinese_character: "CharacterDictionary.chinese_character"
+    };
 
-    AND UsersLearned.user_id = ?
-    LIMIT 50 OFFSET ?;
+    const sortColumn = sortColumns[sort];
+    console.log(sort);
+
     
-    `;
-    const pageNumber = Number(req.params.page);
-    const offset = req.params.page * 50;
+
+    const direction =(sort ==="known" || sort ==="correct") ? "DESC" : "ASC";
+    let sql = `
+        SELECT
+            CharacterDictionary.*,
+
+            COALESCE(
+                UsersLearned.learned,
+                FALSE
+            ) AS known,
+
+            COALESCE(
+                UsersLearned.correct,
+                0
+            ) AS correct
+
+        FROM CharacterDictionary
+
+        LEFT JOIN UsersLearned
+
+        ON CharacterDictionary.id =
+        UsersLearned.character_id
+
+        AND UsersLearned.user_id = ?
+
+        ORDER BY ${sortColumn} ${direction}
+
+        LIMIT 50
+        OFFSET ?
+        `;
+    
     db.query(
         sql,
         [req.session.userId,offset],
