@@ -117,8 +117,9 @@ app.get("/dictionary",requireLogin,(req,res)=>{
 
              db.query(
                 sql,
-                [searchTerm,searchTerm,searchTerm,req.session.userId,offset],
+                [req.session.userId,searchTerm,searchTerm,searchTerm,offset],
                 (err,results)=>{
+                    if(err) throw err;
                     res.render(
                         "dictionary",
                         {
@@ -353,7 +354,7 @@ app.post("/addUser", async (req,res)=>{
                     (err)=>{
                         if(err) throw err;
                         console.log("User Added");
-                        res.redirect("/login");
+                        res.redirect("/account");
                     }
                 );
             }

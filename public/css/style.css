@@ -108,6 +108,19 @@ a{
 
     border:2px solid #ccc;
 }
+.submitSearch{
+    font-size:18px;
+    border:2px solid #ccc;
+    margin-left: 20px;
+}
+
+.submitSearch:hover{
+    font-size:18px;
+    border:2px solid #ccc;
+    background-color: #c5c5c5;
+    transform: scale(1.2);
+    
+}
 
 .toggleLearnButton{
     background-color:rgb(225, 225, 225);
