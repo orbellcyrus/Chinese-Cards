@@ -524,3 +524,11 @@ a{
     background:rgb(239, 76, 58);
  
 }
+
+.logInPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+
+}

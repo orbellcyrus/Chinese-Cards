@@ -309,26 +309,6 @@ app.get("/create/:id",requireLogin,(req,res)=>{
 
 
 
-app.post("/addCharacter",requireLogin,(req,res)=>{
-
-    let character = req.body.character;
-    let english = req.body.english;
-    let pronunciation= req.body.pronunciation;
-
-    let sql =
-    "INSERT INTO CharacterDictionary(chinese_character,english,pronunciation) VALUES (?,?,?)";
-
-    db.query(
-        sql,
-        [character,english,pronunciation],
-        (err,result)=>{
-        if(err) throw err;
-        console.log("Character Added");
-        res.redirect("/dictionary");
-    });
-
-});
-
 app.post("/addUser", async (req,res)=>{
     try{
         const username = req.body.username;
@@ -351,9 +331,14 @@ app.post("/addUser", async (req,res)=>{
                 db.query(
                     insertSQL,
                     [username,hashedPassword,email],
-                    (err)=>{
+                    (err,result)=>{
                         if(err) throw err;
-                        console.log("User Added");
+                         req.session.userId =
+                            result.insertId;
+
+                        req.session.username =
+                            username;
+
                         res.redirect("/account");
                     }
                 );

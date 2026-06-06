@@ -20,34 +20,37 @@
             <li><a href="/decks">Decks</a></li>
         </ul>
     </nav>
+    <div class="logInPage" >
+        <h1>Sign Up</h1>
+        <form action="/addUser" method="POST" >
+            <label>Username</label>
+            <input type="text" name="username" required>
 
-    <h1>Sign Up</h1>
-    <form action="/addUser" method="POST" >
-        <label>Username</label>
-        <input type="text" name="username" required>
+            <label>Password</label>
+            <input type="text" name="password" required>
 
-        <label>Password</label>
-        <input type="text" name="password" required>
+            <label>Email</label>
+            <input type="text" name="email" required>
 
-        <label>Email</label>
-        <input type="text" name="email" required>
-
-        <button type="submit">
-            Submit
-        </button>
-    </form>
-
-    <h1>Log In</h1>
-    <form action="/login" method="POST">
-        <label>Username</label>
-        <input name="username">
+            <button type="submit">
+                Submit
+            </button>
+        </form>
         
-        <label>Password</label>
-        <input type="password" name="password">
-        <button>
-            Login
-        </button>
-    </form>
+        
+
+        <h1>Log In</h1>
+        <form action="/login" method="POST">
+            <label>Username</label>
+            <input name="username">
+            
+            <label>Password</label>
+            <input type="password" name="password">
+            <button>
+                Login
+            </button>
+        </form>
+     </div>
 
 
 </body>
