@@ -396,66 +396,8 @@ a{
 
     align-items:center;
 }
+   
 
-.createCharacterLayout{
-
-    display:flex;
-
-    gap:40px;
-
-    width:90%;
-    margin:auto;
-
-    margin-top:30px;
-
-    
-}
-
-.panel{
-
-    flex:1;
-
-    background:
-        rgb(241, 245, 222);
-
-    padding:20px;
-
-    border-radius:15px;
-
-    min-height:100vh;
-}
-.createPageCharacterRow{
-    padding-left: 1cm;
-    font-size: larger;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    
-    
-}
-.createPageCharacterRow:hover{
-    background-color: rgb(207, 210, 194);
-    font-weight: bold;
-
-}
-
-.createSearchBar{
-
-    width:90%;
-
-    padding:10px;
-
-    margin-bottom:20px;
-    
-
-    border-radius:8px;
-
-    border:2px solid #ccc;
-}
-.createPageCharacterRow button{
-    width: 120px;
-    height: 40px;
-}
 .dictionaryTable{
     border-collapse:collapse;
     font-size: 120%;
