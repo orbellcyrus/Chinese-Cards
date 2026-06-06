@@ -24,23 +24,41 @@
     <div class = "dictionaryPage">
         
         <h1>Characters</h1> 
-        <% for(i in)%>
+        
         <div class="dictionaryPages">
-            <a href="?sort=<%=sort%>&page=1">
-                1
-            </a>
+            <% for(
+                let i = Math.max(1, pageNumber - 5);
+                i <= Math.min(totalPages, pageNumber + 5);
+                i++
+            ){ %>
+                <a
+                    href="/dictionary?page=<%= i %>&sort=<%= sort %>&search=<%= search %>">
+                    <%= i %>
+                </a>
+            <% } %>
 
-            <a href="?sort=<%=sort%>&page=2">
-                2
-            </a>
             
         </div>
         
-        <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
+        <form action="/dictionary" method="GET">
+
+            <input
+            type="text"
+            name="search"
+            value="<%= search %>"
+            placeholder="Search characters">
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+
         <table class = "dictionaryTable">
             <tr>
                 <th class="charColumn">
-                    <a href="?sort=chinese_character&page=1">
+                    <a href="?sort=chinese_character&page=1&search=<%=search%>">
                         Character / 汉子
                     </a>
                 </th>
@@ -50,18 +68,18 @@
                     </a>
                 </th>
                 <th class = "pronunciationColomn">
-                    <a href ="?sort=pronunciation&page=1">
+                    <a href ="?sort=pronunciation&page=1&search=<%=search%>">
                         Pronunciation / 拼音
                     </a>
                 </th>
                 <th>
-                    <a href ="?sort=known&page=1">
+                    <a href ="?sort=known&page=1&search=<%=search%>">
                         Known
                     </a>
                 </th>
           
                 <th class ="correctColumn">
-                    <a href ="?sort=correct&page=<1">
+                    <a href ="?sort=correct&page=1&search=<%=search%>">
                          Times Correct In Flash Cards
                     </a>
                 </th>

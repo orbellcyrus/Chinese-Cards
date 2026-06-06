@@ -66,15 +66,19 @@ a{
 .dictionaryPages{
     display: flex;
     flex-direction: row;
-    =
     padding: 10px;
     gap:10px;
     border-radius: 30%;
 }
+
 .dictionaryPages a{
     background-color: rgb(226, 201, 230);
     color: rgb(27, 68, 32);
     border-radius: 20%;
+    padding: 4px;
+}
+.dictionaryPages a:hover{
+    transform: scale(1.2); 
 }
 .englishColumn{
     width:800px;

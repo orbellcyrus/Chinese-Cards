@@ -31,11 +31,11 @@ app.get("/login", (req, res) => {
 
 app.get("/dictionary",requireLogin,(req,res)=>{
     const pageNumber = Number(req.query.page) || 1;
-    const limit = 100;
+    const limit = 50;
     const offset = (pageNumber-1) * limit
 
     const search = req.query.search || "";
-
+    const searchTerm = `%${search}%`;
     let sort = req.query.sort || "english";
 
     const allowedSorts =
@@ -87,27 +87,54 @@ app.get("/dictionary",requireLogin,(req,res)=>{
 
         AND UsersLearned.user_id = ?
 
+        WHERE
+            chinese_character LIKE ?
+            OR english LIKE ?
+            OR pronunciation LIKE ?
+
         ORDER BY ${sortColumn} ${direction}
 
-        LIMIT 50
+        LIMIT ${limit}
         OFFSET ?
         `;
     console.log(pageNumber);
-    db.query(
-        sql,
-        [req.session.userId,offset],
-        (err,results)=>{
-            res.render(
-                "dictionary",
-                {
-                    sort,
-                    characters:results,
-                    pageNumber
-                    
+
+    count_sql =`
+        SELECT COUNT(*) AS total
+        FROM CharacterDictionary
+        WHERE
+            chinese_character LIKE ?
+            OR english LIKE ?
+            OR pronunciation LIKE ?
+    
+    `
+    db.query(count_sql,
+        [searchTerm,searchTerm,searchTerm],
+        (err,countResults)=>{
+            if(err) throw err;
+            const totalCharacters = countResults[0].total;
+            const totalPages = Math.ceil(totalCharacters/ limit)
+
+             db.query(
+                sql,
+                [searchTerm,searchTerm,searchTerm,req.session.userId,offset],
+                (err,results)=>{
+                    res.render(
+                        "dictionary",
+                        {
+                            sort,
+                            characters:results,
+                            pageNumber,
+                            totalPages,
+                            search
+                            
+                        }
+                    );
                 }
-            )
+            );
         }
-    );
+
+    );    
 });
 
 
