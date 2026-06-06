@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link
+        rel="stylesheet"
+        href="/css/style.css">
 </head>
 <body>
-    
-    <div>
+    <h1>
+        <%= deck.title %>
+    </h1>
+    <div class=" createCharacterCards">
+        <% deckChars.forEach(character=>{%>
+            <div class = createCharacterCard>
+                <p>
+                    <%=character.chinese_character%>
+                </p>
+                <p>
+                    <%=character.english%>
+                </p>
+                <p>
+                    <%=character.pronunciation%>
+                </p>
 
+            </div>
+        <%})%>
     </div>
     
 </body>

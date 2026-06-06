@@ -396,7 +396,29 @@ a{
 
     align-items:center;
 }
-   
+.createCharacterCards{
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+    width:20%;
+}   
+
+.createCharacterCard{
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: aliceblue;
+    border-radius: 30%;
+    justify-content: center;
+    align-items: center;
+
+}   
+.createCharacterCard:hover{
+    transform: scale(1.05);
+    background-color: rgb(164, 181, 196);
+} 
 
 .dictionaryTable{
     border-collapse:collapse;
