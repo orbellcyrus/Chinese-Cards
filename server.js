@@ -92,7 +92,7 @@ app.get("/dictionary",requireLogin,(req,res)=>{
         LIMIT 50
         OFFSET ?
         `;
-    
+    console.log(pageNumber);
     db.query(
         sql,
         [req.session.userId,offset],
@@ -100,8 +100,9 @@ app.get("/dictionary",requireLogin,(req,res)=>{
             res.render(
                 "dictionary",
                 {
+                    sort,
                     characters:results,
-                    pageNumber: pageNumber
+                    pageNumber
                     
                 }
             )

@@ -35,15 +35,11 @@
         <P>account created: <%= user.created_at %></P>
         <div class="usersCharacters">
             <h1>
-                Known Characters
+                Known Characters <%= characters.length %>
             </h1>
-            <% characters.forEach(character =>{ %>
-                <p>
-                    <%=character.english %>
-                    <%=character.pronunciation%>
-                    <%=character.chinese_character%>
-                </p>
-            <% }) %>
+            
+                
+           
         </div>
     </div>
     

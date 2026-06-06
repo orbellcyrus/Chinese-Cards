@@ -24,39 +24,44 @@
     <div class = "dictionaryPage">
         
         <h1>Characters</h1> 
-        
+        <% for(i in)%>
         <div class="dictionaryPages">
+            <a href="?sort=<%=sort%>&page=1">
+                1
+            </a>
 
+            <a href="?sort=<%=sort%>&page=2">
+                2
+            </a>
             
         </div>
         
         <input class = "dictionarySearchBar"id = "searchBar" placeholder = "Search characters">
         <table class = "dictionaryTable">
-            
             <tr>
-                <th>
-                    <a href="?sort=chinese_character">
+                <th class="charColumn">
+                    <a href="?sort=chinese_character&page=1">
                         Character / 汉子
                     </a>
                 </th>
-                <th>
-                    <a href="?sort=english">
+                <th class = "englishColumn">
+                    <a href="?sort=english&page=1">
                         English
                     </a>
                 </th>
-                <th>
-                    <a href ="?sort=pronunciation">
+                <th class = "pronunciationColomn">
+                    <a href ="?sort=pronunciation&page=1">
                         Pronunciation / 拼音
                     </a>
                 </th>
                 <th>
-                    <a href ="?sort=known">
+                    <a href ="?sort=known&page=1">
                         Known
                     </a>
                 </th>
           
-                <th>
-                    <a href ="?sort=correct">
+                <th class ="correctColumn">
+                    <a href ="?sort=correct&page=<1">
                          Times Correct In Flash Cards
                     </a>
                 </th>
@@ -157,6 +162,8 @@
             }
         })
     })
+
+    console.log(<%pageNumber%>);
    
    
 </script>
