@@ -1,6 +1,6 @@
 body{
     margin:0;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(239, 221, 221);
 
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -148,7 +148,7 @@ a{
     padding: 2px;
     background-color:rgb(114, 168, 123) ;
     width:400px;
-    border-radius: 100%;
+    border-radius: 10px;
     display:flex;
     justify-content: center;
 
@@ -261,7 +261,7 @@ a{
     display: flex;
     flex-direction: column;
     align-items:center;
-    background-color: rgb(226, 205, 203);
+    background-color: rgb(239, 244, 174);
     border-radius: 15px;
     padding: 10px;
     
@@ -402,17 +402,20 @@ a{
     grid-template-columns: repeat(3, 1fr);
 
     gap: 20px;
-    width:20%;
+
 }   
 
 .createCharacterCard{
     display: flex;
     flex-direction: column;
-    grid-template-columns: repeat(3, 1fr);
     background-color: aliceblue;
-    border-radius: 30%;
+    border-radius: 15px;   
     justify-content: center;
     align-items: center;
+    background-color: #dbcfdb;
+    color: #000000;
+    padding: 20px;             
+    
 
 }   
 .createCharacterCard:hover{
@@ -420,10 +423,28 @@ a{
     background-color: rgb(164, 181, 196);
 } 
 
+.createPage{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+}
+
+.addToDeck,.removeFromDeck{
+    background-color: #dacbe2;
+    color: rgb(0, 0, 0);
+}
+.addToDeck:hover,.removeFromDeck:hover{
+    background-color: #fffeff;
+    transform: scale(1.1);
+    
+}
+
 .dictionaryTable{
     border-collapse:collapse;
     font-size: 120%;
     width:100%;
+    
     
 }
 .dictionaryTable th,
@@ -492,7 +513,33 @@ a{
 .logInPage{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4%;
 
 }
+
+.logInPage button{
+    border-radius: 10px;
+    size: ;
+    
+    
+}
+
+.logInPage button:hover{
+    transform: scale(1.1);
+    background-color:rgb(160, 218, 229);
+    
+}
+
+.logInPage input{
+    border-radius: 10px;
+    
+}
+
+.logInPage label{
+    border-radius: 10px;
+    
+}
+

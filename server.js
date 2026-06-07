@@ -21,7 +21,7 @@ app.set("view engine", "ejs");
 
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.redirect("account");
 });
 
 app.get("/login", (req, res) => {
@@ -153,6 +153,7 @@ app.get("/account",requireLogin, (req, res) => {
         if(err) throw err;
         db.query(character_sql,[req.session.userId],
             (err,characterResults)=>{
+        
                 res.render(
                 "account",
                 { user: userResults[0],
@@ -256,10 +257,36 @@ app.get("/flashcards/:id",requireLogin,(req,res)=>{
 });
 
 app.get("/create/:id",requireLogin,(req,res)=>{
+    const search = req.query.search || "";
+    const searchTerm = `%${search}%`;
+
+    let sort = req.query.sort || "english";
+    const allowedSorts =
+    [
+        "english",
+        "pronunciation",
+        "correct",
+        "known",
+        "chinese_character"
+    ];
+    if(!allowedSorts.includes(sort)){
+        sort = "english";
+    }
+    const sortColumns = {
+        english: "CharacterDictionary.english",
+        pronunciation: "CharacterDictionary.pronunciation",
+        correct: "correct",
+        known: "known",
+        chinese_character: "CharacterDictionary.chinese_character"
+    };
+    const sortColumn = sortColumns[sort];
+    const direction =(sort ==="known" || sort ==="correct") ? "DESC" : "ASC";
+
     deck_sql = `SELECT * FROM Decks WHERE id = ? AND user_id =?`
     deck_chars_sql = `SELECT CharacterDictionary.* FROM CharacterDictionary 
                         JOIN DeckCharacters ON CharacterDictionary.id= DeckCharacters.character_id
                         WHERE DeckCharacters.deck_id = ?`
+
     all_chars_sql = `
     SELECT *
     FROM CharacterDictionary
@@ -267,8 +294,17 @@ app.get("/create/:id",requireLogin,(req,res)=>{
         SELECT character_id
         FROM DeckCharacters
         WHERE deck_id = ?
-    )
+    ) AND (
+        chinese_character LIKE ?
+        OR english LIKE ?
+
+     )
+        
+        ORDER BY ${sortColumn} ${direction}
+
+        LIMIT 500
     `
+
     db.query(
         deck_sql,
         [ 
@@ -289,11 +325,12 @@ app.get("/create/:id",requireLogin,(req,res)=>{
                     if(err) throw err;
                     db.query(
                         all_chars_sql,
-                        [req.params.id],
+                        [req.params.id,searchTerm,searchTerm],
                         (err,allCharsResults)=>{
                             if(err) throw err;
                             res.render("create",
                                 {
+                                    search,
                                     deck: deckResults[0],
                                     deckChars: deckCharsResults,
                                     allChars: allCharsResults
@@ -313,24 +350,24 @@ app.post("/addUser", async (req,res)=>{
     try{
         const username = req.body.username;
         const password = req.body.password;
-        const email = req.body.email;
+        
 
-        let checkSQL = `SELECT * FROM Users WHERE username = ? OR email = ?`;
+        let checkSQL = `SELECT * FROM Users WHERE username = ?`;
         db.query(
             checkSQL,
-            [username,email],
+            [username],
             async (err,results)=>{
                 if(err) throw err;
                 if(results.length > 0){
                     return res.send(
-                        "Username or email already exists."
+                        "Username already exists."
                     );
                 }
                 const hashedPassword = await bcrypt.hash(password,10);
-                let insertSQL = `INSERT INTO Users (username,password,email) VALUES (?,?,?)`;
+                let insertSQL = `INSERT INTO Users (username,password) VALUES (?,?)`;
                 db.query(
                     insertSQL,
-                    [username,hashedPassword,email],
+                    [username,hashedPassword],
                     (err,result)=>{
                         if(err) throw err;
                          req.session.userId =
@@ -491,10 +528,11 @@ app.post("/addCharacterToDeck",requireLogin, (req,res)=>{
         [deckId,characterId],
         (err)=>{
             if(err) throw err;
-            res.redirect("/dictionary")
+            res.redirect(`/create/${deckId}`)
         }
     )
 });
+
 app.post("/removeCharacterFromDeck",requireLogin, (req,res)=>{
     const deckId =
             req.body.deckId;
@@ -506,7 +544,7 @@ app.post("/removeCharacterFromDeck",requireLogin, (req,res)=>{
         [deckId,characterId],
         (err)=>{
             if(err) throw err;
-            res.redirect("/dictionary")
+            res.redirect(`/create/${deckId}`)
         }
     )
 });

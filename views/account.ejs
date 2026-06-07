@@ -12,10 +12,9 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            MySite
+            Chinese Cards
         </div>
         <ul class="navLinks">
-            <li><a href="/">Home</a></li>
             <li><a href="/dictionary">Dictionary</a></li>
             <li><a href="/account">Account</a></li>
             <li><a href="/decks">Decks</a></li>
@@ -31,8 +30,7 @@
                 logout
             </button>
         </form>
-        <p>email:<%= user.email %></p>
-        <P>account created: <%= user.created_at %></P>
+        <P>Account created: <%= new Date(user.created_at).toLocaleDateString("en-US") %></P>
         <div class="usersCharacters">
             <h1>
                 Known Characters <%= characters.length %>

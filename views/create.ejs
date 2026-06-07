@@ -9,25 +9,103 @@
         href="/css/style.css">
 </head>
 <body>
-    <h1>
-        <%= deck.title %>
-    </h1>
-    <div class=" createCharacterCards">
-        <% deckChars.forEach(character=>{%>
-            <div class = createCharacterCard>
-                <p>
-                    <%=character.chinese_character%>
-                </p>
-                <p>
-                    <%=character.english%>
-                </p>
-                <p>
-                    <%=character.pronunciation%>
-                </p>
+    <nav class="navbar">
+        <div class="logo">
+            Chinese Cards
+        </div>
+        <ul class="navLinks">
+            <li><a href="/dictionary">Dictionary</a></li>
+            <li><a href="/account">Account</a></li>
+            <li><a href="/decks">Decks</a></li>
+        </ul>
+    </nav>
 
+    
+    <div class = "createPage">
+        
+        <div class ="alreadyInDeck">
+            <h1>
+                 <%= deck.title %> - Deck Contents
+            </h1>
+             <div class= "createCharacterCards">
+                <% deckChars.forEach(character=>{%>
+                    <div class = "createCharacterCard">
+                        <p>
+                            <%=character.chinese_character%>
+                        </p>
+                        <p>
+                            <%=character.english%>
+                        </p>
+                        <p>
+                            <%=character.pronunciation%>
+                        </p>
+                        <form action = "/removeCharacterFromDeck", method ="POST">
+                            <input
+                                type="hidden"
+                                name="characterId"
+                                value="<%= character.id %>">
+                            <input
+                                type="hidden"
+                                name="deckId"
+                                value="<%= deck.id %>">
+                            <button type="submit" class ="removeFromDeck">
+                                Remove From Deck
+                            </button>
+                        </form>
+
+                    </div>
+                <%})%>
             </div>
-        <%})%>
+
+        </div>
+       
+
+       
+
+        <div class = "CharactersAvailable">
+            <h1>
+                Add Characters
+            </h1>
+            <form action="/create/<%=deck.id%>" method="GET">
+                <input class = "dictionarySearchBar"
+                type="text"
+                name="search"
+                value="<%= search %>"
+                placeholder="Search characters">
+
+                <button type="submit" class ="submitSearch">
+                    Search 
+                </button>
+
+            </form>
+
+            <ul>
+                <% allChars.forEach(character=>{%>
+                    <li>
+                        <form action = "/addCharacterToDeck", method ="POST">
+                            <input
+                                type="hidden"
+                                name="characterId"
+                                value="<%= character.id %>">
+                            <input
+                                type="hidden"
+                                name="deckId"
+                                value="<%= deck.id %>">
+                            <button type="submit" class ="addToDeck">
+                                Add To Deck
+                            </button>
+                            <%=character.english%> - <%=character.chinese_character%> - <%=character.pronunciation%>
+                        </form>
+                        
+                    
+                    </li>
+                <%})%>
+            </ul>
+            
+        </div>
+
     </div>
+    
     
 </body>
 </html>
